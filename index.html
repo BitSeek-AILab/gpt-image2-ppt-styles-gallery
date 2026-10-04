@@ -27,25 +27,36 @@
   .chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
   .bar input{margin-left:auto;background:var(--panel);border:1px solid var(--line);color:var(--fg);
     border-radius:8px;padding:7px 12px;font-size:13px;min-width:210px}
-  .grid{display:grid;gap:22px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px}
-  .card header{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-  .card h2{margin:0;font-size:18px}
-  .ids{color:var(--dim);font-size:12px;margin-top:3px}
-  .ids code{font-size:12px}
+  /* Two columns. The first version had no column definition at all, so every
+     style took the full 1560px and one screen held about 1.5 cards. */
+  .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(560px,1fr))}
+  @media (max-width:1180px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:14px 15px 12px;
+    display:flex;flex-direction:column}
+  .card header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .card h2{margin:0;font-size:16px;line-height:1.3}
+  .ids{color:var(--dim);font-size:11.5px;margin-top:3px}
+  .ids code{font-size:11.5px}
   .dot{margin:0 6px}
-  .score{font-weight:700;background:var(--line);border-radius:8px;padding:3px 10px}
+  .score{font-weight:700;background:var(--line);border-radius:8px;padding:2px 9px;font-size:13px}
   .score.na{color:var(--dim);font-weight:400}
-  .desc{color:var(--dim);font-size:14px;margin:10px 0 12px}
-  .meta{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
-  .swatches{display:flex;gap:5px}
-  .sw{width:20px;height:20px;border-radius:5px;border:1px solid var(--line);display:inline-block}
-  .fonts{font-size:12px;color:var(--dim)}
-  .shots{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  @media (max-width:860px){.shots{grid-template-columns:1fr}}
+  /* description is long; collapsed so the images lead */
+  details.about{margin:9px 0 10px}
+  details.about>summary{cursor:pointer;color:var(--dim);font-size:12.5px;list-style:none;
+    display:flex;align-items:center;gap:6px}
+  details.about>summary::-webkit-details-marker{display:none}
+  details.about>summary::before{content:"▸";transition:.15s}
+  details.about[open]>summary::before{transform:rotate(90deg)}
+  .desc{color:var(--dim);font-size:13px;margin:7px 0 0;line-height:1.6}
+  .meta{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+  .swatches{display:flex;gap:4px}
+  .sw{width:17px;height:17px;border-radius:5px;border:1px solid var(--line);display:inline-block}
+  .fonts{font-size:11.5px;color:var(--dim)}
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  @media (max-width:620px){.shots{grid-template-columns:1fr}}
   figure{margin:0}
-  figure img{width:100%;display:block;border-radius:9px;border:1px solid var(--line);background:#fff}
-  figcaption{font-size:12px;color:var(--dim);margin-top:6px}
+  figure img{width:100%;display:block;border-radius:8px;border:1px solid var(--line);background:#fff}
+  figcaption{font-size:11px;color:var(--dim);margin-top:4px;text-align:center}
   .note{margin-top:12px;background:color-mix(in srgb,var(--fg) 5%,transparent);border:1px solid var(--line);
     border-radius:9px;padding:10px 14px;font-size:13px}
   .note.bad{border-color:color-mix(in srgb,var(--bad) 45%,var(--line))}
@@ -97,7 +108,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">暖调人文编辑风（参考 Claude 的视觉语言）：羊皮纸暖白纸感底、赤陶色单一强调色、衬线大标题配无衬线正文，插图是手绘有机质感而非几何科技风。整页像一间文学沙龙——从容、安静、有智性。适合人文社科讲课、读书分享、品牌故事、内容型长文拆解。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">暖调人文编辑风（参考 Claude 的视觉语言）：羊皮纸暖白纸感底、赤陶色单一强调色、衬线大标题配无衬线正文，插图是手绘有机质感而非几何科技风。整页像一间文学沙龙——从容、安静、有智性。适合人文社科讲课、读书分享、品牌故事、内容型长文拆解。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f5f4ed" title="#f5f4ed"></span><span class="sw" style="background:#141413" title="#141413"></span><span class="sw" style="background:#c96442" title="#c96442"></span></span><span class="fonts">title: 思源宋体 Medium · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -123,7 +136,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">暖奶油底 + 命名色卡的玩心几何风（参考 Clay 的视觉语言）：暖奶油画布配燕麦色描边，一组有名字的糖果色（抹茶、冰沙、柠檬…）像手作材料一样被使用，字体几何而略带古怪，圆角厚实、硬偏移阴影。把枯燥的内容讲得像手作工艺。适合轻量科普、校园活动、产品介绍、内部分享。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">暖奶油底 + 命名色卡的玩心几何风（参考 Clay 的视觉语言）：暖奶油画布配燕麦色描边，一组有名字的糖果色（抹茶、冰沙、柠檬…）像手作材料一样被使用，字体几何而略带古怪，圆角厚实、硬偏移阴影。把枯燥的内容讲得像手作工艺。适合轻量科普、校园活动、产品介绍、内部分享。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#faf9f7" title="#faf9f7"></span><span class="sw" style="background:#02492a" title="#02492a"></span><span class="sw" style="background:#fbbd41" title="#fbbd41"></span><span class="sw" style="background:#3bd3fd" title="#3bd3fd"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -149,7 +164,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">对标 Nature / Science 综述插图与现代科学出版的干净高端演示设计：纯暖白背景、极慷慨留白、精确细线、浅灰结构元素，配示意机理图、研究照片、克制的数据可视化。适合论文答辩、综述汇报、实验进展、方法学讲解。  &gt; **「基础提示词模板」是原始提示词原文**，搭配 `--prompt-mode raw` 使用可 1:1 复现导入风格库之前的效果（layout bank 不参与编译）。改写版保留在文件末尾，需要更强约束时整段替换回去即可。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">对标 Nature / Science 综述插图与现代科学出版的干净高端演示设计：纯暖白背景、极慷慨留白、精确细线、浅灰结构元素，配示意机理图、研究照片、克制的数据可视化。适合论文答辩、综述汇报、实验进展、方法学讲解。  &gt; **「基础提示词模板」是原始提示词原文**，搭配 `--prompt-mode raw` 使用可 1:1 复现导入风格库之前的效果（layout bank 不参与编译）。改写版保留在文件末尾，需要更强约束时整段替换回去即可。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FBFAF7" title="#FBFAF7"></span><span class="sw" style="background:#16233A" title="#16233A"></span><span class="sw" style="background:#B4553C" title="#B4553C"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -175,7 +192,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">文档级留白 + 薄荷绿强调的清爽技术风（参考 Mintlify 的视觉语言）：纯白画布、白上叠白靠极淡描边分层、紧凑大字标题、等宽字体的全大写小标签、薄荷绿只在关键处点缀，配一层云朵般的淡绿渐变。把“清晰”当成最高美学。适合技术文档型汇报、产品讲解、教程与课程、SaaS 介绍。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">文档级留白 + 薄荷绿强调的清爽技术风（参考 Mintlify 的视觉语言）：纯白画布、白上叠白靠极淡描边分层、紧凑大字标题、等宽字体的全大写小标签、薄荷绿只在关键处点缀，配一层云朵般的淡绿渐变。把“清晰”当成最高美学。适合技术文档型汇报、产品讲解、教程与课程、SaaS 介绍。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0d0d0d" title="#0d0d0d"></span><span class="sw" style="background:#18e299" title="#18e299"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -201,7 +220,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">对标高端科学杂志、当代学术出版与知识分子文化期刊的编辑设计体系：暖白底、慷慨负空间、克制排印、细微纸纹，配精心构图的纪实摄影或学术插画。适合学术汇报、文献综述、课题答辩、思想文化类分享。  &gt; **「基础提示词模板」是原始提示词原文**，搭配 `--prompt-mode raw` 使用可 1:1 复现导入风格库之前的效果（layout bank 不参与编译）。改写版保留在文件末尾，需要更强约束时整段替换回去即可。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">对标高端科学杂志、当代学术出版与知识分子文化期刊的编辑设计体系：暖白底、慷慨负空间、克制排印、细微纸纹，配精心构图的纪实摄影或学术插画。适合学术汇报、文献综述、课题答辩、思想文化类分享。  &gt; **「基础提示词模板」是原始提示词原文**，搭配 `--prompt-mode raw` 使用可 1:1 复现导入风格库之前的效果（layout bank 不参与编译）。改写版保留在文件末尾，需要更强约束时整段替换回去即可。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F7F5F0" title="#F7F5F0"></span><span class="sw" style="background:#232323" title="#232323"></span><span class="sw" style="background:#A65A3A" title="#A65A3A"></span></span><span class="fonts">title: 思源宋体 Heavy · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -227,7 +248,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">橄榄鼠尾草底 + 手绘插画的“内部 wiki”风（参考 PostHog 的视觉语言）：用暖鼠尾草和深橄榄替代常规科技蓝，粗重标题配宽松行高，橙色只在关键处闪现，插画是手绘涂鸦而非精致矢量。刻意不精致，但亲切、好读、有记忆点。适合产品/工程内部分享、成长复盘、团队文档型汇报。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">橄榄鼠尾草底 + 手绘插画的“内部 wiki”风（参考 PostHog 的视觉语言）：用暖鼠尾草和深橄榄替代常规科技蓝，粗重标题配宽松行高，橙色只在关键处闪现，插画是手绘涂鸦而非精致矢量。刻意不精致，但亲切、好读、有记忆点。适合产品/工程内部分享、成长复盘、团队文档型汇报。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#eeefe9" title="#eeefe9"></span><span class="sw" style="background:#23251d" title="#23251d"></span><span class="sw" style="background:#f54e00" title="#f54e00"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -253,7 +276,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">白底 + 钴蓝主色 + 一组明亮辅助色的设计工具风（参考 Webflow 的视觉语言）：干净白画布、近黑文字、钴蓝作为唯一主强调色，另有紫/粉/绿/橙/黄/红一整组辅助色只在需要区分时才出现。视觉丰富但克制、锐利、工具感强。适合产品发布、设计/开发主题分享、方法论讲解、创意提案。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">白底 + 钴蓝主色 + 一组明亮辅助色的设计工具风（参考 Webflow 的视觉语言）：干净白画布、近黑文字、钴蓝作为唯一主强调色，另有紫/粉/绿/橙/黄/红一整组辅助色只在需要区分时才出现。视觉丰富但克制、锐利、工具感强。适合产品发布、设计/开发主题分享、方法论讲解、创意提案。  &gt; **「基础提示词模板」为来源风格的忠实版**（保留源设计语言的原始措辞，只补了一条整页出图的前提说明），搭配 `--prompt-mode raw` 使用。中文规范版保留在文件末尾。  &lt;!-- prompt-mode: raw --&gt;  &gt; **本风格声明 `prompt-mode: raw`**：出图时只组合「风格提示词 + 本页内容」，不注入 layout 摘要、路由元数据与结构化字段名，以把结果严格控制在原始风格的设计范围内。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#080808" title="#080808"></span><span class="sw" style="background:#146ef5" title="#146ef5"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -279,7 +304,9 @@
         </div>
         <div class="right"><span class="score">3.0</span></div>
       </header>
-      <p class="desc">苹果式极简：大留白、超大字号、几乎无彩色，强调色是近黑，靠留白与排版取胜。行高 1.75、标题字重更轻、阴影几乎归零。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">苹果式极简：大留白、超大字号、几乎无彩色，强调色是近黑，靠留白与排版取胜。行高 1.75、标题字重更轻、阴影几乎归零。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#1d1d1f" title="#1d1d1f"></span><span class="sw" style="background:#1d1d1f" title="#1d1d1f"></span><span class="sw" style="background:#0071e3" title="#0071e3"></span></span><span class="fonts">title: SF Pro Display Medium · body: SF Pro Text Regular</span></div>
       <div class="shots">
           <figure>
@@ -305,7 +332,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">纯灰阶编辑体：完全没有彩色强调，黑色本身就是强调色。几何与字体承担全部识别度，气质严厉、快速、基础设施感。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">纯灰阶编辑体：完全没有彩色强调，黑色本身就是强调色。几何与字体承担全部识别度，气质严厉、快速、基础设施感。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#8f8f8f" title="#8f8f8f"></span></span><span class="fonts">title: Geist Sans SemiBold · body: Geist Sans Regular · mono: Geist Mono</span></div>
       <div class="shots">
           <figure>
@@ -331,7 +360,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">高端咨询编辑体：暖白底 + 严格黑色格线 + 硬边图片块 + 报告式排版，深青作唯一的深色面板，极少量哑绿点睛。像一份可持续金融报告。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">高端咨询编辑体：暖白底 + 严格黑色格线 + 硬边图片块 + 报告式排版，深青作唯一的深色面板，极少量哑绿点睛。像一份可持续金融报告。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F4F2EF" title="#F4F2EF"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#183B3D" title="#183B3D"></span><span class="sw" style="background:#8FAE9A" title="#8FAE9A"></span></span><span class="fonts">title: 无衬线窄体 SemiBold · body: 无衬线 Regular</span></div>
       <div class="shots">
           <figure>
@@ -357,7 +388,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">极简白：纯白底、Inter 同字族、靠字号与字重拉开层级，阴影几乎归零。适合内部汇报、技术评审这类「不抢内容」的严肃话题。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">极简白：纯白底、Inter 同字族、靠字号与字重拉开层级，阴影几乎归零。适合内部汇报、技术评审这类「不抢内容」的严肃话题。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0a0a0b" title="#0a0a0b"></span><span class="sw" style="background:#0b1024" title="#0b1024"></span><span class="sw" style="background:#2563eb" title="#2563eb"></span></span><span class="fonts">title: Inter SemiBold · body: Inter Regular</span></div>
       <div class="shots">
           <figure>
@@ -383,7 +416,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">国际主义排版风格（瑞士风格）：网格是数学的、可见的；Helvetica 感无衬线；左齐右不齐，绝不居中、绝不两端对齐；黑白 + 至多一个强调色。这不是极简主义，是严谨。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">国际主义排版风格（瑞士风格）：网格是数学的、可见的；Helvetica 感无衬线；左齐右不齐，绝不居中、绝不两端对齐；黑白 + 至多一个强调色。这不是极简主义，是严谨。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0a0a0a" title="#0a0a0a"></span><span class="sw" style="background:#e2231a" title="#e2231a"></span><span class="sw" style="background:#0a0a0a" title="#0a0a0a"></span></span><span class="fonts">title: Helvetica Neue Bold · body: Helvetica Neue Regular</span></div>
       <div class="shots">
           <figure>
@@ -409,7 +444,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">便当盒式卡片布局系统：不同尺寸的卡片在网格里组合出层级与节奏，卡片大小即优先级。12 栏底、最小 20px 间距、60px 安全边距。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">便当盒式卡片布局系统：不同尺寸的卡片在网格里组合出层级与节奏，卡片大小即优先级。12 栏底、最小 20px 间距、60px 安全边距。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#1a1d21" title="#1a1d21"></span><span class="sw" style="background:#0369a1" title="#0369a1"></span><span class="sw" style="background:#4da3ff" title="#4da3ff"></span></span><span class="fonts">title: 无衬线 SemiBold · body: 无衬线 Regular</span></div>
       <div class="shots">
           <figure>
@@ -435,7 +472,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">金融交易所式高密度：白底、24px 大圆角卡片、唯一金色强调（#f0b90b）、玻璃卡浮起层。明确要求「信息高密度是对的，别强行留白」。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">金融交易所式高密度：白底、24px 大圆角卡片、唯一金色强调（#f0b90b）、玻璃卡浮起层。明确要求「信息高密度是对的，别强行留白」。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#1e2026" title="#1e2026"></span><span class="sw" style="background:#f0b90b" title="#f0b90b"></span><span class="sw" style="background:#32313a" title="#32313a"></span></span><span class="fonts">title: BinancePlex / Arial Semibold · body: BinancePlex / Arial Regular</span></div>
       <div class="shots">
           <figure>
@@ -461,7 +500,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">仪表盘优先、图表为主角的开发工具美学：炭黑底、单一签名黄强调、成体系的 8 色分类色板、等宽数字。为「扫读上千行」而优化。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">仪表盘优先、图表为主角的开发工具美学：炭黑底、单一签名黄强调、成体系的 8 色分类色板、等宽数字。为「扫读上千行」而优化。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#181818" title="#181818"></span><span class="sw" style="background:#f5f5f5" title="#f5f5f5"></span><span class="sw" style="background:#faff69" title="#faff69"></span><span class="sw" style="background:#ff6ec7" title="#ff6ec7"></span></span><span class="fonts">title: Inter SemiBold · body: Inter Regular · mono: JetBrains Mono</span></div>
       <div class="shots">
           <figure>
@@ -487,7 +528,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">日式杂志趋势报告系统：暖奶油纸底 + 电钴蓝油墨 + 永久铺在每一页背后的方格纸网格。衬线大标题极高，等宽字承担装饰与滚动条文字；像素故障竖条与 8×8 二维码块是标志性装饰。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">日式杂志趋势报告系统：暖奶油纸底 + 电钴蓝油墨 + 永久铺在每一页背后的方格纸网格。衬线大标题极高，等宽字承担装饰与滚动条文字；像素故障竖条与 8×8 二维码块是标志性装饰。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F0EBDE" title="#F0EBDE"></span><span class="sw" style="background:#1F2BE0" title="#1F2BE0"></span><span class="sw" style="background:#1F2BE0" title="#1F2BE0"></span><span class="sw" style="background:#5560E5" title="#5560E5"></span></span><span class="fonts">title: Newsreader Serif · body: 无衬线 Regular · mono: DM Mono</span></div>
       <div class="shots">
           <figure>
@@ -513,7 +556,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">深靛蓝 + 瓷白：冷静、理性、有深度，像学术期刊或蓝印花瓷器。适合科技/研究/数据分享与工程师文化。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">深靛蓝 + 瓷白：冷静、理性、有深度，像学术期刊或蓝印花瓷器。适合科技/研究/数据分享与工程师文化。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f1f3f5" title="#f1f3f5"></span><span class="sw" style="background:#0a1f3d" title="#0a1f3d"></span><span class="sw" style="background:#0a1f3d" title="#0a1f3d"></span><span class="sw" style="background:#152a4a" title="#152a4a"></span></span><span class="fonts">title: 思源宋体 SemiBold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -539,7 +584,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">暗色开发者文档风：近黑画布、单一紫罗兰辉光、圆角卡片带内高光、等宽元数据。每页至多一处离心的径向辉光。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">暗色开发者文档风：近黑画布、单一紫罗兰辉光、圆角卡片带内高光、等宽元数据。每页至多一处离心的径向辉光。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0E0E0E" title="#0E0E0E"></span><span class="sw" style="background:#F5F5F5" title="#F5F5F5"></span><span class="sw" style="background:#A78BFA" title="#A78BFA"></span><span class="sw" style="background:#8B5CF6" title="#8B5CF6"></span></span><span class="fonts">title: 无衬线 SemiBold · body: 无衬线 Regular · mono: 等宽元数据</span></div>
       <div class="shots">
           <figure>
@@ -565,7 +612,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">自信、粗野、高冲击：深灰渐变底上放一块高饱和橙色卡片作为视觉焦点，超大编号，Archivo Black 展示字。编号在左上、导航在右上、标题在左下。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">自信、粗野、高冲击：深灰渐变底上放一块高饱和橙色卡片作为视觉焦点，超大编号，Archivo Black 展示字。编号在左上、导航在右上、标题在左下。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1a1a1a" title="#1a1a1a"></span><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#FF5722" title="#FF5722"></span><span class="sw" style="background:#1a1a1a" title="#1a1a1a"></span></span><span class="fonts">title: Archivo Black · body: Space Grotesk</span></div>
       <div class="shots">
           <figure>
@@ -591,7 +640,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">深色优先的沉浸石墨风：近黑石墨面板 + 亮蓝青强调，默认即深色。浅色变体是石墨纸灰 + 同系蓝青，只作打印辅助。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">深色优先的沉浸石墨风：近黑石墨面板 + 亮蓝青强调，默认即深色。浅色变体是石墨纸灰 + 同系蓝青，只作打印辅助。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0b0e12" title="#0b0e12"></span><span class="sw" style="background:#eef2f6" title="#eef2f6"></span><span class="sw" style="background:#4da3ff" title="#4da3ff"></span><span class="sw" style="background:#6fb2ff" title="#6fb2ff"></span></span><span class="fonts">title: Inter Bold · body: Inter Regular</span></div>
       <div class="shots">
           <figure>
@@ -617,7 +668,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">GPU 厂商式电影感：铬黑画布、签名绿作为唯一行动色、硬边窄体大标题、满幅媒体 hero。整体像一支硬件发布片。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">GPU 厂商式电影感：铬黑画布、签名绿作为唯一行动色、硬边窄体大标题、满幅媒体 hero。整体像一支硬件发布片。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#76b900" title="#76b900"></span><span class="sw" style="background:#10b1fb" title="#10b1fb"></span></span><span class="fonts">title: NVIDIA Sans / Helvetica Neue Bold · body: NVIDIA Sans / Helvetica Neue Regular</span></div>
       <div class="shots">
           <figure>
@@ -643,7 +696,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">电影级渐变 + 超大字 + 纯黑底 + 媒体重 hero：震撼、高级、创作工具气质。可用大尺度渐变、光影与超大字号做压迫感。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">电影级渐变 + 超大字 + 纯黑底 + 媒体重 hero：震撼、高级、创作工具气质。可用大尺度渐变、光影与超大字号做压迫感。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#f0f0fa" title="#f0f0fa"></span><span class="sw" style="background:#f0f0fa" title="#f0f0fa"></span><span class="sw" style="background:#8a8a9a" title="#8a8a9a"></span></span><span class="fonts">title: D-DIN / DIN Alternate Bold · body: D-DIN / Helvetica Neue Regular</span></div>
       <div class="shots">
           <figure>
@@ -669,7 +724,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">通用学术风：白底 + 学术蓝主色，摘要框/图注框/代码块统一用极浅灰面板加 1px 边框，直角到 4px 小圆角，另备学科色（自然绿 / 物理青 / 医学酒红）。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">通用学术风：白底 + 学术蓝主色，摘要框/图注框/代码块统一用极浅灰面板加 1px 边框，直角到 4px 小圆角，另备学科色（自然绿 / 物理青 / 医学酒红）。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#212529" title="#212529"></span><span class="sw" style="background:#0D4EA6" title="#0D4EA6"></span><span class="sw" style="background:#1D7348" title="#1D7348"></span></span><span class="fonts">title: 无衬线 SemiBold · body: 无衬线 Regular · mono: JetBrains Mono</span></div>
       <div class="shots">
           <figure>
@@ -695,7 +752,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">学术汇报硬性规范：纯白底、不许任何渐变纹理、24 列栅格、60px 外边距，顶部一条红色横幅，白名单之外的颜色一律禁止。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">学术汇报硬性规范：纯白底、不许任何渐变纹理、24 列栅格、60px 外边距，顶部一条红色横幅，白名单之外的颜色一律禁止。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#2C3E50" title="#2C3E50"></span><span class="sw" style="background:#C0392B" title="#C0392B"></span><span class="sw" style="background:#FDEDEC" title="#FDEDEC"></span></span><span class="fonts">title: 思源黑体 Bold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -721,7 +780,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">文学杂志 × 年报：严格三色（腮红粉 / 金黄油 / 深酒红），十一个变量名其实只有三个十六进制值。标题用可变怪诞体极限字重与负字距，斜体衬线只作表现性点缀。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">文学杂志 × 年报：严格三色（腮红粉 / 金黄油 / 深酒红），十一个变量名其实只有三个十六进制值。标题用可变怪诞体极限字重与负字距，斜体衬线只作表现性点缀。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F2B6C6" title="#F2B6C6"></span><span class="sw" style="background:#7A1F35" title="#7A1F35"></span><span class="sw" style="background:#7A1F35" title="#7A1F35"></span><span class="sw" style="background:#F2D86A" title="#F2D86A"></span></span><span class="fonts">title: Bricolage Grotesque 800 · body: Bricolage Grotesque 400 · mono: JetBrains Mono</span></div>
       <div class="shots">
           <figure>
@@ -747,7 +808,9 @@
         </div>
         <div class="right"><span class="score">3.0</span></div>
       </header>
-      <p class="desc">顶刊插图规范转成的页面风格：无衬线标准字体、最小 5pt 文字、可及配色、坐标轴必须标单位、分面板小写粗体字母标注，并明确列出一串「我们避免」的清单。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">顶刊插图规范转成的页面风格：无衬线标准字体、最小 5pt 文字、可及配色、坐标轴必须标单位、分面板小写粗体字母标注，并明确列出一串「我们避免」的清单。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#1a1a1a" title="#1a1a1a"></span><span class="sw" style="background:#0D4EA6" title="#0D4EA6"></span><span class="sw" style="background:#1D7348" title="#1D7348"></span></span><span class="fonts">title: Helvetica / Arial Bold · body: Helvetica / Arial Regular · mono: Courier</span></div>
       <div class="shots">
           <figure>
@@ -773,7 +836,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">宋代文人美学：留白不是缺席而是存在。宣纸暖象牙底、水墨灰阶、汝窑天青为唯一可用的彩色，朱砂印章全篇只出现一次。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">宋代文人美学：留白不是缺席而是存在。宣纸暖象牙底、水墨灰阶、汝窑天青为唯一可用的彩色，朱砂印章全篇只出现一次。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F7F3EC" title="#F7F3EC"></span><span class="sw" style="background:#1C1C1C" title="#1C1C1C"></span><span class="sw" style="background:#8BB5B0" title="#8BB5B0"></span><span class="sw" style="background:#C43B2A" title="#C43B2A"></span></span><span class="fonts">title: Noto Serif SC Bold · body: Noto Serif SC Regular</span></div>
       <div class="shots">
           <figure>
@@ -799,7 +864,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">包豪斯：几何 + 红黄蓝原色，全部直角（圆角 0），Futura PT 几何无衬线，用基本形（圆、方、三角）当构图元素。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">包豪斯：几何 + 红黄蓝原色，全部直角（圆角 0），Futura PT 几何无衬线，用基本形（圆、方、三角）当构图元素。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#E63329" title="#E63329"></span><span class="sw" style="background:#F7C948" title="#F7C948"></span></span><span class="fonts">title: Futura PT SemiBold · body: Futura PT Book · label: Futura PT Bold 11px</span></div>
       <div class="shots">
           <figure>
@@ -825,7 +892,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">艺术双年展图录 / 安静展览海报的视觉语域：羊皮纸暖灰底上泛开太阳黄的光晕，单一深靛蓝油墨。无投影、无圆角、无边框卡片，唯一的结构线是 1px 发丝线。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">艺术双年展图录 / 安静展览海报的视觉语域：羊皮纸暖灰底上泛开太阳黄的光晕，单一深靛蓝油墨。无投影、无圆角、无边框卡片，唯一的结构线是 1px 发丝线。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#E9E5DB" title="#E9E5DB"></span><span class="sw" style="background:#1B1B4B" title="#1B1B4B"></span><span class="sw" style="background:#F1EE2E" title="#F1EE2E"></span><span class="sw" style="background:#1B1B4B" title="#1B1B4B"></span></span><span class="fonts">title: Instrument Serif · body: Archivo · mono: JetBrains Mono</span></div>
       <div class="shots">
           <figure>
@@ -851,7 +920,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">暖调摄影编辑风：奶油白、焦糖棕、巧克力棕、酒红、橄榄绿，整体低饱和；模块化网格满格裁切；粗窄体全大写标题压在图片上；胶片颗粒与暖色阴影。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">暖调摄影编辑风：奶油白、焦糖棕、巧克力棕、酒红、橄榄绿，整体低饱和；模块化网格满格裁切；粗窄体全大写标题压在图片上；胶片颗粒与暖色阴影。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F3EADF" title="#F3EADF"></span><span class="sw" style="background:#2E1F16" title="#2E1F16"></span><span class="sw" style="background:#7A2E2E" title="#7A2E2E"></span><span class="sw" style="background:#6B6B3A" title="#6B6B3A"></span></span><span class="fonts">title: condensed editorial sans Bold · body: Garamond / Didot / 思源宋体</span></div>
       <div class="shots">
           <figure>
@@ -877,7 +948,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">孔版印刷（riso）小志系统：暖卡其纸底、深森林绿强调、墨黑结构；压缩工业无衬线全大写展示字、手写体作强调、每页覆盖一层细微颗粒。略带旋转的邮戳、拼贴胶带、首字下沉、纸上叠纸的偏心阴影。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">孔版印刷（riso）小志系统：暖卡其纸底、深森林绿强调、墨黑结构；压缩工业无衬线全大写展示字、手写体作强调、每页覆盖一层细微颗粒。略带旋转的邮戳、拼贴胶带、首字下沉、纸上叠纸的偏心阴影。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#C8B99A" title="#C8B99A"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span><span class="sw" style="background:#008F4D" title="#008F4D"></span><span class="sw" style="background:#00A85D" title="#00A85D"></span></span><span class="fonts">title: Bebas Neue · body: Space Grotesk 300-500 · label: Caveat 手写体</span></div>
       <div class="shots">
           <figure>
@@ -903,7 +976,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">白板讲解风：纯白无纹理底、内容占用很少超过 40%、一个焦点。老师的声音用几何人文无衬线，老师的手用倾斜细马克笔手写体写边注、表格与花括号。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">白板讲解风：纯白无纹理底、内容占用很少超过 40%、一个焦点。老师的声音用几何人文无衬线，老师的手用倾斜细马克笔手写体写边注、表格与花括号。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span><span class="sw" style="background:#E8590C" title="#E8590C"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span></span><span class="fonts">title: Figtree Regular · body: Figtree Regular · label: Caveat 手写体</span></div>
       <div class="shots">
           <figure>
@@ -929,7 +1004,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">专业克制、信息密度高的通用商务风：中性灰阶表面族 + 单一蓝强调色，圆角 16，层次全靠表面明度差与 1px 边框。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">专业克制、信息密度高的通用商务风：中性灰阶表面族 + 单一蓝强调色，圆角 16，层次全靠表面明度差与 1px 边框。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#202124" title="#202124"></span><span class="sw" style="background:#1a73e8" title="#1a73e8"></span><span class="sw" style="background:#e8f0fe" title="#e8f0fe"></span></span><span class="fonts">title: Google Sans / Roboto Bold · body: Google Sans / Roboto Regular</span></div>
       <div class="shots">
           <figure>
@@ -955,7 +1032,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">纯墨黑 + 暖米白，杂志感最强：通用分享、商业发布、科技产品都安全的默认选择。像 Monocle / A Book Apart 一类刊物的排版。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">纯墨黑 + 暖米白，杂志感最强：通用分享、商业发布、科技产品都安全的默认选择。像 Monocle / A Book Apart 一类刊物的排版。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f1efea" title="#f1efea"></span><span class="sw" style="background:#0a0a0b" title="#0a0a0b"></span><span class="sw" style="background:#0a0a0b" title="#0a0a0b"></span><span class="sw" style="background:#18181a" title="#18181a"></span></span><span class="fonts">title: 思源宋体 SemiBold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -981,7 +1060,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">咨询范：衬线标题 + 无衬线正文 + 细线框架 + 小圆角 + 高密表格。靠 1px 发丝线与网格分块，几乎不用阴影。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">咨询范：衬线标题 + 无衬线正文 + 细线框架 + 小圆角 + 高密表格。靠 1px 发丝线与网格分块，几乎不用阴影。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#101828" title="#101828"></span><span class="sw" style="background:#003a70" title="#003a70"></span><span class="sw" style="background:#7fb2e5" title="#7fb2e5"></span></span><span class="fonts">title: Georgia / 宋体 SemiBold · body: Inter / IBM Plex Sans Regular</span></div>
       <div class="shots">
           <figure>
@@ -1007,7 +1088,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">极简专业风 + 柔和哑光 3D 几何体飘在角落：暖米底、鼠尾草绿主强调、莫兰迪暖粉次强调。要现代精致、有 UI 打磨感，但不能像儿童黏土插画。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">极简专业风 + 柔和哑光 3D 几何体飘在角落：暖米底、鼠尾草绿主强调、莫兰迪暖粉次强调。要现代精致、有 UI 打磨感，但不能像儿童黏土插画。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FDF5E6" title="#FDF5E6"></span><span class="sw" style="background:#333333" title="#333333"></span><span class="sw" style="background:#B2AC88" title="#B2AC88"></span><span class="sw" style="background:#DBADAD" title="#DBADAD"></span></span><span class="fonts">title: 无衬线 SemiBold · body: 无衬线 Regular</span></div>
       <div class="shots">
           <figure>
@@ -1033,7 +1116,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">温暖高级、编辑感/年报感：米白暖底 + 古铜金强调，衬线标题，圆角 12，宽松行高 1.72。像一本年度报告。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">温暖高级、编辑感/年报感：米白暖底 + 古铜金强调，衬线标题，圆角 12，宽松行高 1.72。像一本年度报告。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fbf9f6" title="#fbf9f6"></span><span class="sw" style="background:#2a2521" title="#2a2521"></span><span class="sw" style="background:#96681f" title="#96681f"></span><span class="sw" style="background:#eaddc4" title="#eaddc4"></span></span><span class="fonts">title: Georgia / Playfair Display SemiBold · body: Inter / 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -1059,7 +1144,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">非洲文化遗产与科幻未来的融合。Black Panther 的瓦坎达 + Sun Ra 的宇宙爵士 + Solange 的视觉诗学——非洲传统图案遇上赛博空间。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">非洲文化遗产与科幻未来的融合。Black Panther 的瓦坎达 + Sun Ra 的宇宙爵士 + Solange 的视觉诗学——非洲传统图案遇上赛博空间。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#050505" title="#050505"></span><span class="sw" style="background:#F5EDE0" title="#F5EDE0"></span><span class="sw" style="background:#A03A1A" title="#A03A1A"></span><span class="sw" style="background:#A03A1A" title="#A03A1A"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1085,7 +1172,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">智能、流动、对话感。AI 时代产品的视觉语言——渐变字、紫色体系、轻盈动效。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">智能、流动、对话感。AI 时代产品的视觉语言——渐变字、紫色体系、轻盈动效。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F8F7FF" title="#F8F7FF"></span><span class="sw" style="background:#0D0B1A" title="#0D0B1A"></span><span class="sw" style="background:#9B72F5" title="#9B72F5"></span><span class="sw" style="background:#9B72F5" title="#9B72F5"></span></span><span class="fonts">title: rgba(240,238,255,0.72) · body: rgba(240,238,255,0.72)</span></div>
       <div class="shots">
           <figure>
@@ -1111,7 +1200,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">梦幻科技感。深色背景 + 动态渐变光球 + 玻璃拟态组合，是 AI 时代最流行的官网风格。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">梦幻科技感。深色背景 + 动态渐变光球 + 玻璃拟态组合，是 AI 时代最流行的官网风格。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#06061A" title="#06061A"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#818CF8" title="#818CF8"></span><span class="sw" style="background:#0891B2" title="#0891B2"></span></span><span class="fonts">title: Inter 400 · body: Inter 400</span></div>
       <div class="shots">
           <figure>
@@ -1137,7 +1228,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">拒绝美化的诚实设计。Bloomberg.com 早期的原始力量、Craigslist 的无装饰功能主义、BAFTA 的当代野蛮——系统默认值变成宣言。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">拒绝美化的诚实设计。Bloomberg.com 早期的原始力量、Craigslist 的无装饰功能主义、BAFTA 的当代野蛮——系统默认值变成宣言。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#FF0000" title="#FF0000"></span><span class="sw" style="background:#FFFF00" title="#FFFF00"></span></span><span class="fonts">title: Arial, Helvetica Neue, sans-serif 500 · body: Arial, Helvetica Neue, sans-serif 500</span></div>
       <div class="shots">
           <figure>
@@ -1163,7 +1256,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">3D膨胀质感、橡皮泥触感、色彩饱和、圆润可触。2022年兴起的新拟物主义。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">3D膨胀质感、橡皮泥触感、色彩饱和、圆润可触。2022年兴起的新拟物主义。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F7F5FF" title="#F7F5FF"></span><span class="sw" style="background:#1A1A2E" title="#1A1A2E"></span><span class="sw" style="background:#3D8EFF" title="#3D8EFF"></span><span class="sw" style="background:#FF4D8F" title="#FF4D8F"></span></span><span class="fonts">title: Nunito · body: Nunito</span></div>
       <div class="shots">
           <figure>
@@ -1189,7 +1284,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">高科技、低生活、霓虹反乌托邦。黄色+青色警示线、故障艺术、破碎字体、未来都市暗语。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">高科技、低生活、霓虹反乌托邦。黄色+青色警示线、故障艺术、破碎字体、未来都市暗语。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0A0A0F" title="#0A0A0F"></span><span class="sw" style="background:#E0E0F0" title="#E0E0F0"></span><span class="sw" style="background:#FFE000" title="#FFE000"></span><span class="sw" style="background:#00FFD1" title="#00FFD1"></span></span><span class="fonts">title: Rajdhani · body: Rajdhani</span></div>
       <div class="shots">
           <figure>
@@ -1215,7 +1312,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">代码即设计，终端即美学。a popular code editor + a widely used editor dark theme + 命令行的视觉语言。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">代码即设计，终端即美学。a popular code editor + a widely used editor dark theme + 命令行的视觉语言。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0D1117" title="#0D1117"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#58A6FF" title="#58A6FF"></span><span class="sw" style="background:#A5D6FF" title="#A5D6FF"></span></span><span class="fonts">title: Inter, Helvetica Neue, Arial, sans-serif 400 · body: Inter, Helvetica Neue, Arial, sans-serif 400</span></div>
       <div class="shots">
           <figure>
@@ -1241,7 +1340,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">职业电竞赛事的视觉冲击力。League of Legends World Championship + ESL + Riot Games——深色、霓虹、对角切割、斜面几何。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">职业电竞赛事的视觉冲击力。League of Legends World Championship + ESL + Riot Games——深色、霓虹、对角切割、斜面几何。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0A0C14" title="#0A0C14"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#00D4FF" title="#00D4FF"></span><span class="sw" style="background:#94A3B8" title="#94A3B8"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1267,7 +1368,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">科技感、沉浸感、高端感。深色背景上漂浮半透明磨砂玻璃卡片，霓虹渐变光晕营造深邃氛围。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">科技感、沉浸感、高端感。深色背景上漂浮半透明磨砂玻璃卡片，霓虹渐变光晕营造深邃氛围。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0D0D1A" title="#0D0D1A"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#8B5CF6" title="#8B5CF6"></span><span class="sw" style="background:#0891B2" title="#0891B2"></span></span><span class="fonts">title: Cal Sans 700 · body: Inter 400</span></div>
       <div class="shots">
           <figure>
@@ -1293,7 +1396,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">超可爱、圆润、柔软。日本萌文化的数字延伸，糖果色 + 圆角 + 可爱插图。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">超可爱、圆润、柔软。日本萌文化的数字延伸，糖果色 + 圆角 + 可爱插图。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#B8F0E0" title="#B8F0E0"></span><span class="sw" style="background:#3D2B1F" title="#3D2B1F"></span><span class="sw" style="background:#6B4C3B" title="#6B4C3B"></span><span class="sw" style="background:#6B4C3B" title="#6B4C3B"></span></span><span class="fonts">title: Nunito 400 · body: Nunito 400</span></div>
       <div class="shots">
           <figure>
@@ -1319,7 +1424,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">a search company 2021年发布的 Material Design 3 — 动态色彩、圆角大进化、个性化主题系统。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">a search company 2021年发布的 Material Design 3 — 动态色彩、圆角大进化、个性化主题系统。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#E8DEF8" title="#E8DEF8"></span><span class="sw" style="background:#21005D" title="#21005D"></span><span class="sw" style="background:#6750A4" title="#6750A4"></span><span class="sw" style="background:#625B71" title="#625B71"></span></span><span class="fonts">title: Roboto Flex · body: Roboto Flex</span></div>
       <div class="shots">
           <figure>
@@ -1345,7 +1452,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">厚重、直接、反精致。粗黑描边 + 偏移阴影 + 高饱和纯色，审美颠覆，记忆深刻。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">厚重、直接、反精致。粗黑描边 + 偏移阴影 + 高饱和纯色，审美颠覆，记忆深刻。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFEF5" title="#FFFEF5"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#FFDD00" title="#FFDD00"></span><span class="sw" style="background:#FFDD00" title="#FFDD00"></span></span><span class="fonts">title: Space Grotesk · body: Space Grotesk</span></div>
       <div class="shots">
           <figure>
@@ -1371,7 +1480,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">8-bit/16-bit 复古游戏美学。像素字体、方块图形、有限调色板、街机怀旧。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">8-bit/16-bit 复古游戏美学。像素字体、方块图形、有限调色板、街机怀旧。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0D0D0D" title="#0D0D0D"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#00FF41" title="#00FF41"></span><span class="sw" style="background:#00FF41" title="#00FF41"></span></span><span class="fonts">title: Share Tech Mono, JetBrains Mono, monospace 400 · body: Share Tech Mono, JetBrains Mono, monospace 400</span></div>
       <div class="shots">
           <figure>
@@ -1397,7 +1508,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">安迪·沃霍尔的重复印刷、罗伊·利希滕斯坦的网点漫画、英国波普的活力——大众文化变成高雅艺术。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">安迪·沃霍尔的重复印刷、罗伊·利希滕斯坦的网点漫画、英国波普的活力——大众文化变成高雅艺术。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFEF5" title="#FFFEF5"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#E8002A" title="#E8002A"></span><span class="sw" style="background:#00ADEF" title="#00ADEF"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1423,7 +1536,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">融资路演的视觉语言。深色幻灯片、单一重点、大数据、投资人的审美预期。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">融资路演的视觉语言。深色幻灯片、单一重点、大数据、投资人的审美预期。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0F1117" title="#0F1117"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#F59E0B" title="#F59E0B"></span><span class="sw" style="background:#94A3B8" title="#94A3B8"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1449,7 +1564,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">80年代赛博朋克 + 霓虹余晖。深紫夜空、网格透视、激光粉蓝、chrome字体。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">80年代赛博朋克 + 霓虹余晖。深紫夜空、网格透视、激光粉蓝、chrome字体。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0D0221" title="#0D0221"></span><span class="sw" style="background:#FFE640" title="#FFE640"></span><span class="sw" style="background:#FF2D7F" title="#FF2D7F"></span><span class="sw" style="background:#00F5FF" title="#00F5FF"></span></span><span class="fonts">title: Rajdhani · body: Rajdhani</span></div>
       <div class="shots">
           <figure>
@@ -1475,7 +1592,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">粉紫色调、大理石柱、日落海面、像素棕榈树。互联网亚文化的审美极端。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">粉紫色调、大理石柱、日落海面、像素棕榈树。互联网亚文化的审美极端。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1A0533" title="#1A0533"></span><span class="sw" style="background:#FFFB96" title="#FFFB96"></span><span class="sw" style="background:#01CDFE" title="#01CDFE"></span><span class="sw" style="background:#B967FF" title="#B967FF"></span></span><span class="fonts">title: Comfortaa · body: Comfortaa</span></div>
       <div class="shots">
           <figure>
@@ -1501,7 +1620,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">千禧年的数字乐观主义。银色光泽、像素字体、彩虹渐变、泡泡糖色、CD光晕效果。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">千禧年的数字乐观主义。银色光泽、像素字体、彩虹渐变、泡泡糖色、CD光晕效果。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F0F4FF" title="#F0F4FF"></span><span class="sw" style="background:#0A0A1A" title="#0A0A1A"></span><span class="sw" style="background:#00CED1" title="#00CED1"></span><span class="sw" style="background:#00CED1" title="#00CED1"></span></span><span class="fonts">title: Nunito · body: Nunito</span></div>
       <div class="shots">
           <figure>
@@ -1527,7 +1648,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">专业、可信、严谨。全球500强企业的数字化语言，IBM Carbon + 麦肯锡官网的结合体。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">专业、可信、严谨。全球500强企业的数字化语言，IBM Carbon + 麦肯锡官网的结合体。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#001F4E" title="#001F4E"></span><span class="sw" style="background:#0055A5" title="#0055A5"></span><span class="sw" style="background:#5C9EEB" title="#5C9EEB"></span></span><span class="fonts">title: IBM Plex Sans 400 · body: IBM Plex Sans 400</span></div>
       <div class="shots">
           <figure>
@@ -1553,7 +1676,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">深色背景、数据为王、霓虹强调色。彭博终端 + Grafana + Datadog 的现代化演绎。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">深色背景、数据为王、霓虹强调色。彭博终端 + Grafana + Datadog 的现代化演绎。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0F1117" title="#0F1117"></span><span class="sw" style="background:#E6EDF3" title="#E6EDF3"></span><span class="sw" style="background:#D29922" title="#D29922"></span><span class="sw" style="background:#39C5CF" title="#39C5CF"></span></span><span class="fonts">title: Inter, Helvetica Neue, Arial, sans-serif 400 · body: Inter, Helvetica Neue, Arial, sans-serif 400</span></div>
       <div class="shots">
           <figure>
@@ -1579,7 +1704,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">高转化、高活力、信息密集。促销色块 + 产品大图 + 紧凑信息架构，驱动购买冲动。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">高转化、高活力、信息密集。促销色块 + 产品大图 + 紧凑信息架构，驱动购买冲动。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F5F5" title="#F5F5F5"></span><span class="sw" style="background:#212121" title="#212121"></span><span class="sw" style="background:#FF3D00" title="#FF3D00"></span><span class="sw" style="background:#FF3D00" title="#FF3D00"></span></span><span class="fonts">title: Roboto · body: Roboto</span></div>
       <div class="shots">
           <figure>
@@ -1605,7 +1732,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">激发好奇心、降低学习焦虑的数字课堂。Coursera 的结构严谨 + a language-learning app 的趣味鼓励。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">激发好奇心、降低学习焦虑的数字课堂。Coursera 的结构严谨 + a language-learning app 的趣味鼓励。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#111827" title="#111827"></span><span class="sw" style="background:#4F46E5" title="#4F46E5"></span><span class="sw" style="background:#818CF8" title="#818CF8"></span></span><span class="fonts">title: Plus Jakarta Sans · body: Plus Jakarta Sans</span></div>
       <div class="shots">
           <figure>
@@ -1631,7 +1760,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">高端时尚杂志的数字语言。a fashion magazine 的视觉霸权、Dazed 的先锋感、System 的极简实验。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">高端时尚杂志的数字语言。a fashion magazine 的视觉霸权、Dazed 的先锋感、System 的极简实验。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#C41E3A" title="#C41E3A"></span><span class="sw" style="background:#C41E3A" title="#C41E3A"></span></span><span class="fonts">title: Inter, Helvetica Neue, Arial, sans-serif 300 · body: Inter, Helvetica Neue, Arial, sans-serif 300</span></div>
       <div class="shots">
           <figure>
@@ -1657,7 +1788,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">机构投资者、资产管理、私募基金的视觉语言。Bloomberg 终端的数据密度 + BlackRock 的权威 + Vanguard 的信任。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">机构投资者、资产管理、私募基金的视觉语言。Bloomberg 终端的数据密度 + BlackRock 的权威 + Vanguard 的信任。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F8F9FA" title="#F8F9FA"></span><span class="sw" style="background:#0D1B2E" title="#0D1B2E"></span><span class="sw" style="background:#3B6BB5" title="#3B6BB5"></span><span class="sw" style="background:#3B6BB5" title="#3B6BB5"></span></span><span class="fonts">title: IBM Plex Sans 400 · body: IBM Plex Sans 400</span></div>
       <div class="shots">
           <figure>
@@ -1683,7 +1816,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">精准、可信、高端。金融级严谨 + 科技公司优雅的结合，代表产品是 a payments company、Wise、Mercury、Brex。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">精准、可信、高端。金融级严谨 + 科技公司优雅的结合，代表产品是 a payments company、Wise、Mercury、Brex。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1E293B" title="#1E293B"></span><span class="sw" style="background:#0F172A" title="#0F172A"></span><span class="sw" style="background:#4338CA" title="#4338CA"></span><span class="sw" style="background:#4338CA" title="#4338CA"></span></span><span class="fonts">title: Inter 400 · body: Inter 400</span></div>
       <div class="shots">
           <figure>
@@ -1709,7 +1844,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">柔和、治愈、自然。降低焦虑感的视觉语言，Calm / Headspace / Oura 的设计基因。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">柔和、治愈、自然。降低焦虑感的视觉语言，Calm / Headspace / Oura 的设计基因。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#152334" title="#152334"></span><span class="sw" style="background:#0D1B2A" title="#0D1B2A"></span><span class="sw" style="background:#7BAE7F" title="#7BAE7F"></span><span class="sw" style="background:#7BAE7F" title="#7BAE7F"></span></span><span class="fonts">title: rgba(232,238,244,0.7) · body: rgba(232,238,244,0.7)</span></div>
       <div class="shots">
           <figure>
@@ -1735,7 +1872,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">律所、咨询公司、会计师事务所的权威感。深色深蓝 + 金色 + 精准排版——Kirkland &amp; Ellis 的严肃，McKinsey 的精准。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">律所、咨询公司、会计师事务所的权威感。深色深蓝 + 金色 + 精准排版——Kirkland &amp; Ellis 的严肃，McKinsey 的精准。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAFAF8" title="#FAFAF8"></span><span class="sw" style="background:#0D1421" title="#0D1421"></span><span class="sw" style="background:#2E5E9A" title="#2E5E9A"></span><span class="sw" style="background:#B8962E" title="#B8962E"></span></span><span class="fonts">title: Georgia · body: Georgia</span></div>
       <div class="shots">
           <figure>
@@ -1761,7 +1900,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">极致留白、高对比衬线字、克制用色。让产品本身说话，设计是隐形的框架。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">极致留白、高对比衬线字、克制用色。让产品本身说话，设计是隐形的框架。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAFAF8" title="#FAFAF8"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#B8973A" title="#B8973A"></span><span class="sw" style="background:#B8973A" title="#B8973A"></span></span><span class="fonts">title: Jost 300 · body: Jost 300</span></div>
       <div class="shots">
           <figure>
@@ -1787,7 +1928,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">临床信任感与人文关怀的平衡。Mayo Clinic 的专业严谨 + Hims 的现代亲和。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">临床信任感与人文关怀的平衡。Mayo Clinic 的专业严谨 + Hims 的现代亲和。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#111827" title="#111827"></span><span class="sw" style="background:#D97706" title="#D97706"></span><span class="sw" style="background:#67E8F9" title="#67E8F9"></span></span><span class="fonts">title: DM Sans · body: DM Sans</span></div>
       <div class="shots">
           <figure>
@@ -1813,7 +1956,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">唤起同理心、激发行动的公益设计。UNICEF 的蓝色信任 + charity: water 的希望 + Patagonia 的真实。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">唤起同理心、激发行动的公益设计。UNICEF 的蓝色信任 + charity: water 的希望 + Patagonia 的真实。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAFAF8" title="#FAFAF8"></span><span class="sw" style="background:#111827" title="#111827"></span><span class="sw" style="background:#D97706" title="#D97706"></span><span class="sw" style="background:#D97706" title="#D97706"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1839,7 +1984,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">米其林级别餐厅的视觉语言。Le Bernardin 的克制、Noma 的诗意、Eleven Madison Park 的完美主义。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">米其林级别餐厅的视觉语言。Le Bernardin 的克制、Noma 的诗意、Eleven Madison Park 的完美主义。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF7F0" title="#FAF7F0"></span><span class="sw" style="background:#0F0F0E" title="#0F0F0E"></span><span class="sw" style="background:#1A1614" title="#1A1614"></span><span class="sw" style="background:#1A1614" title="#1A1614"></span></span><span class="fonts">title: EB Garamond · body: EB Garamond</span></div>
       <div class="shots">
           <figure>
@@ -1865,7 +2012,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">清晰、高效、数据优先。白色背景，侧边导航，模块化卡片，代表产品是 a payments company Dashboard、HubSpot、a note-taking tool。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">清晰、高效、数据优先。白色背景，侧边导航，模块化卡片，代表产品是 a payments company Dashboard、HubSpot、a note-taking tool。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F9FAFB" title="#F9FAFB"></span><span class="sw" style="background:#111827" title="#111827"></span><span class="sw" style="background:#D97706" title="#D97706"></span><span class="sw" style="background:#6B7280" title="#6B7280"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -1891,7 +2040,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">精准、克制、高端。黑白为骨，单一强调色为肉，字体即设计。a hosting platform、a project-tracking tool、a note-taking tool 的共同基因。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">精准、克制、高端。黑白为骨，单一强调色为肉，字体即设计。a hosting platform、a project-tracking tool、a note-taking tool 的共同基因。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#0060D0" title="#0060D0"></span><span class="sw" style="background:#0060D0" title="#0060D0"></span></span><span class="fonts">title: Inter 400 · body: Inter 400</span></div>
       <div class="shots">
           <figure>
@@ -1917,7 +2068,9 @@
         </div>
         <div class="right"><span class="score">3.5</span></div>
       </header>
-      <p class="desc">逃离日常的视觉邀请。a hospitality marketplace 的温暖亲和 + Four Seasons 的精致 + National Geographic 的探险精神。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">逃离日常的视觉邀请。a hospitality marketplace 的温暖亲和 + Four Seasons 的精致 + National Geographic 的探险精神。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAFAF8" title="#FAFAF8"></span><span class="sw" style="background:#1A1614" title="#1A1614"></span><span class="sw" style="background:#059669" title="#059669"></span><span class="sw" style="background:#E8724A" title="#E8724A"></span></span><span class="fonts">title: DM Sans 400 · body: DM Sans 400</span></div>
       <div class="shots">
           <figure>
@@ -1943,7 +2096,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">黄金年代的华丽与精密。几何对称、金色线条、黑色背景、菱形花纹，1920s 大都会美学。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">黄金年代的华丽与精密。几何对称、金色线条、黑色背景、菱形花纹，1920s 大都会美学。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#F5F0E8" title="#F5F0E8"></span><span class="sw" style="background:#8B6914" title="#8B6914"></span><span class="sw" style="background:#C9A84C" title="#C9A84C"></span></span><span class="fonts">title: Jost · body: Jost</span></div>
       <div class="shots">
           <figure>
@@ -1969,7 +2124,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">牛津图书馆的烛光、《死亡诗社》的激情、黑色笔记本的密语——学术与哥特的浪漫交响。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">牛津图书馆的烛光、《死亡诗社》的激情、黑色笔记本的密语——学术与哥特的浪漫交响。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1A1208" title="#1A1208"></span><span class="sw" style="background:#FAF0DC" title="#FAF0DC"></span><span class="sw" style="background:#8B1A1A" title="#8B1A1A"></span><span class="sw" style="background:#E0B860" title="#E0B860"></span></span><span class="fonts">title: Cormorant Garamond · body: Cormorant Garamond</span></div>
       <div class="shots">
           <figure>
@@ -1995,7 +2152,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">沙丘：调性**:炭灰 + 沙色,克制、高级、中性,像沙漠黄昏或建筑设计图册。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">沙丘：调性**:炭灰 + 沙色,克制、高级、中性,像沙漠黄昏或建筑设计图册。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f0e6d2" title="#f0e6d2"></span><span class="sw" style="background:#1f1a14" title="#1f1a14"></span><span class="sw" style="background:#1f1a14" title="#1f1a14"></span><span class="sw" style="background:#1f1a14" title="#1f1a14"></span></span><span class="fonts">title: 思源宋体 SemiBold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -2021,7 +2180,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">印刷出版的数字化延伸。断层排版、混合字号、文字即图形，a major newspaper, a fashion magazine or a technology magazine 的网页设计语言。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">印刷出版的数字化延伸。断层排版、混合字号、文字即图形，a major newspaper, a fashion magazine or a technology magazine 的网页设计语言。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF9F7" title="#FAF9F7"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#B5121B" title="#B5121B"></span><span class="sw" style="background:#B5121B" title="#B5121B"></span></span><span class="fonts">title: Source Serif 4 · body: Source Serif 4</span></div>
       <div class="shots">
           <figure>
@@ -2047,7 +2208,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">森林墨：调性**:深森林绿 + 象牙,沉稳、有呼吸感,像旧版《国家地理》。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">森林墨：调性**:深森林绿 + 象牙,沉稳、有呼吸感,像旧版《国家地理》。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f5f1e8" title="#f5f1e8"></span><span class="sw" style="background:#1a2e1f" title="#1a2e1f"></span><span class="sw" style="background:#1a2e1f" title="#1a2e1f"></span><span class="sw" style="background:#1a2e1f" title="#1a2e1f"></span></span><span class="fonts">title: 思源宋体 SemiBold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -2073,7 +2236,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">伊斯兰艺术的数学之美。阿尔汉布拉宫的星形图案、蓝色清真寺的穹顶、摩洛哥泥板的细腻——几何作为精神语言。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">伊斯兰艺术的数学之美。阿尔汉布拉宫的星形图案、蓝色清真寺的穹顶、摩洛哥泥板的细腻——几何作为精神语言。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0D3340" title="#0D3340"></span><span class="sw" style="background:#FAF6EE" title="#FAF6EE"></span><span class="sw" style="background:#0D4858" title="#0D4858"></span><span class="sw" style="background:#E8C456" title="#E8C456"></span></span><span class="fonts">title: Inter · body: Inter</span></div>
       <div class="shots">
           <figure>
@@ -2099,7 +2264,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">极致留白、自然材质、不完美之美。日本侘寂（Wabi-sabi）+ 北欧极简的东西方融合。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">极致留白、自然材质、不完美之美。日本侘寂（Wabi-sabi）+ 北欧极简的东西方融合。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF8F3" title="#FAF8F3"></span><span class="sw" style="background:#2C2C2C" title="#2C2C2C"></span><span class="sw" style="background:#9C6B52" title="#9C6B52"></span><span class="sw" style="background:#9C6B52" title="#9C6B52"></span></span><span class="fonts">title: DM Sans · body: DM Sans</span></div>
       <div class="shots">
           <figure>
@@ -2125,7 +2292,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">牛皮纸：调性**:深棕 + 暖米,像牛皮信封或老笔记本,温暖、有年代感。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">牛皮纸：调性**:深棕 + 暖米,像牛皮信封或老笔记本,温暖、有年代感。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#eedfc7" title="#eedfc7"></span><span class="sw" style="background:#2a1e13" title="#2a1e13"></span><span class="sw" style="background:#2a1e13" title="#2a1e13"></span><span class="sw" style="background:#2a1e13" title="#2a1e13"></span></span><span class="fonts">title: 思源宋体 SemiBold · body: 思源黑体 Regular</span></div>
       <div class="shots">
           <figure>
@@ -2151,7 +2320,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">大地感、可持续、真实材质。绿植配色、手写笔触、有机形状，传递天然与可信赖。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">大地感、可持续、真实材质。绿植配色、手写笔触、有机形状，传递天然与可信赖。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF6F0" title="#FAF6F0"></span><span class="sw" style="background:#2A2218" title="#2A2218"></span><span class="sw" style="background:#4A8B3A" title="#4A8B3A"></span><span class="sw" style="background:#4A8B3A" title="#4A8B3A"></span></span><span class="fonts">title: Source Serif 4 · body: Source Serif 4</span></div>
       <div class="shots">
           <figure>
@@ -2177,7 +2348,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">东方美学 × 当代流行文化。传统元素重新诠释，故宫+潮牌+新媒体=中国当代设计自信。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">东方美学 × 当代流行文化。传统元素重新诠释，故宫+潮牌+新媒体=中国当代设计自信。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F0E8" title="#F5F0E8"></span><span class="sw" style="background:#1A1008" title="#1A1008"></span><span class="sw" style="background:#FFE000" title="#FFE000"></span><span class="sw" style="background:#A8C5A0" title="#A8C5A0"></span></span><span class="fonts">title: Noto Sans SC, PingFang SC, sans-serif 400 · body: Noto Sans SC, PingFang SC, sans-serif 400</span></div>
       <div class="shots">
           <figure>
@@ -2203,7 +2376,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">1920–1940年代上海的东西融合美学。月份牌广告的浓艳、Art Deco 的几何、摩登旗袍的优雅。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">1920–1940年代上海的东西融合美学。月份牌广告的浓艳、Art Deco 的几何、摩登旗袍的优雅。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5EDD8" title="#F5EDD8"></span><span class="sw" style="background:#1A1410" title="#1A1410"></span><span class="sw" style="background:#C41E3A" title="#C41E3A"></span><span class="sw" style="background:#C41E3A" title="#C41E3A"></span></span><span class="fonts">title: Noto Serif SC · body: Noto Serif SC</span></div>
       <div class="shots">
           <figure>
@@ -2229,7 +2404,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">盛唐的国际与富丽。金色、朱砂、孔雀蓝——丝绸之路带来的色彩碰撞，敦煌壁画的视觉震撼。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">盛唐的国际与富丽。金色、朱砂、孔雀蓝——丝绸之路带来的色彩碰撞，敦煌壁画的视觉震撼。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F0DFA0" title="#F0DFA0"></span><span class="sw" style="background:#0D0805" title="#0D0805"></span><span class="sw" style="background:#3D1200" title="#3D1200"></span><span class="sw" style="background:#E8C456" title="#E8C456"></span></span><span class="fonts">title: Noto Serif SC · body: Noto Serif SC</span></div>
       <div class="shots">
           <figure>
@@ -2255,7 +2432,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">江户时代浮世绘的数字演绎。葛饰北斋《神奈川冲浪里》的视觉张力——波浪线条、平涂色块、戏剧性构图。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">江户时代浮世绘的数字演绎。葛饰北斋《神奈川冲浪里》的视觉张力——波浪线条、平涂色块、戏剧性构图。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F0E6" title="#F5F0E6"></span><span class="sw" style="background:#1A1614" title="#1A1614"></span><span class="sw" style="background:#1A4B7A" title="#1A4B7A"></span><span class="sw" style="background:#1A4B7A" title="#1A4B7A"></span></span><span class="fonts">title: Noto Serif JP · body: Noto Serif JP</span></div>
       <div class="shots">
           <figure>
@@ -2281,7 +2460,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">日式侘寂美学——不完整之美、短暂之美、不完美之美。枯山水的静、茶室的拙、苔藓的残。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">日式侘寂美学——不完整之美、短暂之美、不完美之美。枯山水的静、茶室的拙、苔藓的残。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F4F1EC" title="#F4F1EC"></span><span class="sw" style="background:#1A1714" title="#1A1714"></span><span class="sw" style="background:#8B5E3C" title="#8B5E3C"></span><span class="sw" style="background:#8B5E3C" title="#8B5E3C"></span></span><span class="fonts">title: Noto Serif JP, Noto Serif SC, serif 400 · body: Noto Serif JP, Noto Serif SC, serif 400</span></div>
       <div class="shots">
           <figure>
@@ -2307,7 +2488,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A retro-futuristic pixel-art presentation system that fuses 16-bit arcade nostalgia with editorial discipline. Display type runs in Tektur (a chunky geometric display face built on pixel-grid logic) paired with Chakra Pe</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A retro-futuristic pixel-art presentation system that fuses 16-bit arcade nostalgia with editorial discipline. Display type runs in Tektur (a chunky geometric display face built on pixel-grid logic) paired with Chakra Pe</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0A0E27" title="#0A0E27"></span><span class="sw" style="background:#0A0E27" title="#0A0E27"></span><span class="sw" style="background:#0A0E27" title="#0A0E27"></span><span class="sw" style="background:#0A0E27" title="#0A0E27"></span></span><span class="fonts">title: Tektur&#x27;, cursive 900 clamp(48px, 10vw, 128px) 0.04em · body: Chakra Petch&#x27;, sans-serif 400 clamp(14.4px, 1.2vw, 18.4px)</span></div>
       <div class="shots">
           <figure>
@@ -2333,7 +2516,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A maximalist neobrutalist presentation system built on 4px solid black borders, 8px hard offset shadows, and a high-key candy palette of five saturated pastels plus cream and off-white. Display type runs Inter at weight </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A maximalist neobrutalist presentation system built on 4px solid black borders, 8px hard offset shadows, and a high-key candy palette of five saturated pastels plus cream and off-white. Display type runs Inter at weight </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#99E885" title="#99E885"></span><span class="sw" style="background:#000000" title="#000000"></span></span><span class="fonts">title: Inter&#x27;, sans-serif 900 clamp(48px, 6vw, 96px) -0.03em · body: Inter&#x27;, sans-serif 900 clamp(36px, 4vw, 64px)</span></div>
       <div class="shots">
           <figure>
@@ -2359,7 +2544,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A restrained, consulting-grade presentation system on a warm cream canvas (#fdfae7) with a single saturated cobalt blue (#1e2bfa) as the only accent color. Display type runs Space Grotesk for headlines and numerical call</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A restrained, consulting-grade presentation system on a warm cream canvas (#fdfae7) with a single saturated cobalt blue (#1e2bfa) as the only accent color. Display type runs Space Grotesk for headlines and numerical call</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fdfae7" title="#fdfae7"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#1e2bfa" title="#1e2bfa"></span><span class="sw" style="background:#fdfae7" title="#fdfae7"></span></span><span class="fonts">title: Space Grotesk&#x27;, sans-serif 700 clamp(44.8px, 5vw, 67.2px) -0.02em · body: Space Grotesk&#x27;, sans-serif 700 clamp(35.2px, 3.4vw, 48px)</span></div>
       <div class="shots">
           <figure>
@@ -2385,7 +2572,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A populist editorial poster system that mashes vintage Italian sports-magazine display lettering with classical serif body and tight monospace metadata. The display face is Shrikhand — a heavy slab/script hybrid with pla</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A populist editorial poster system that mashes vintage Italian sports-magazine display lettering with classical serif body and tight monospace metadata. The display face is Shrikhand — a heavy slab/script hybrid with pla</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span><span class="sw" style="background:#FFFFFF" title="#FFFFFF"></span></span><span class="fonts">title: Shrikhand&#x27;, cursive 400 clamp(72px, 16vw, 220px) 1px · body: Shrikhand&#x27;, cursive 400 clamp(32px, 7vw, 90px)</span></div>
       <div class="shots">
           <figure>
@@ -2411,7 +2600,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A protest-poster editorial system built on massive Barlow type and a single fire-orange environment color. The aesthetic is &quot;ink on fire&quot; — dark slides for documentation, orange slides for declaration. Display type is en</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A protest-poster editorial system built on massive Barlow type and a single fire-orange environment color. The aesthetic is &quot;ink on fire&quot; — dark slides for documentation, orange slides for declaration. Display type is en</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#111111" title="#111111"></span></span><span class="fonts">title: Barlow, Noto Sans SC, sans-serif 900 13vw -0.04em · body: Barlow, Noto Sans SC, sans-serif 400 1.2vw</span></div>
       <div class="shots">
           <figure>
@@ -2437,7 +2628,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A playful editorial system built on pill-shaped containers, a sun-bleached cream canvas, and a nine-color candy palette. Bodoni Moda serif headlines pair with Space Grotesk body to suggest a literary magazine that took a</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A playful editorial system built on pill-shaped containers, a sun-bleached cream canvas, and a nine-color candy palette. Bodoni Moda serif headlines pair with Space Grotesk body to suggest a literary magazine that took a</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F5F0" title="#F5F5F0"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span><span class="sw" style="background:#F5F5F0" title="#F5F5F0"></span><span class="sw" style="background:#F5F5F0" title="#F5F5F0"></span></span><span class="fonts">title: Bodoni Moda, serif 800 clamp(3rem, 8vw, 7rem) -0.02em · body: Bodoni Moda, serif 700 1.5rem</span></div>
       <div class="shots">
           <figure>
@@ -2463,7 +2656,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A quiet, museum-catalog editorial system built on Playfair Display serif headlines, Inter sans body, and a five-tone warm-stone palette. The aesthetic is &quot;consulting deck meets architectural monograph&quot; — minimal geometri</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A quiet, museum-catalog editorial system built on Playfair Display serif headlines, Inter sans body, and a five-tone warm-stone palette. The aesthetic is &quot;consulting deck meets architectural monograph&quot; — minimal geometri</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#EDE8E0" title="#EDE8E0"></span><span class="sw" style="background:#EDE8E0" title="#EDE8E0"></span><span class="sw" style="background:#8A8178" title="#8A8178"></span><span class="sw" style="background:#EDE8E0" title="#EDE8E0"></span></span><span class="fonts">title: Playfair Display, serif 400 clamp(3rem, 6vw, 5.5rem) · body: Playfair Display, serif 400 1.5rem</span></div>
       <div class="shots">
           <figure>
@@ -2489,7 +2684,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A bold magazine-poster system that runs on three surface registers — coral fire, ink black, and warm cream — animated by Bebas Neue display caps and a constant 45° diagonal hatch pattern. Inter handles body copy; Bebas N</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A bold magazine-poster system that runs on three surface registers — coral fire, ink black, and warm cream — animated by Bebas Neue display caps and a constant 45° diagonal hatch pattern. Inter handles body copy; Bebas N</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#E85D5D" title="#E85D5D"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span><span class="sw" style="background:#E85D5D" title="#E85D5D"></span><span class="sw" style="background:#E85D5D" title="#E85D5D"></span></span><span class="fonts">title: Bebas Neue, sans-serif 400 min(120px, 9vw, 13vh) 4px · body: Bebas Neue, sans-serif 400 clamp(48px, 7vw, 96px)</span></div>
       <div class="shots">
           <figure>
@@ -2515,7 +2712,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A neo-brutalist editorial presentation system built for 1920x1080 slides. The deck anchors on a warm cream canvas with heavy 4px ink borders, hard offset drop-shadows, and a bold four-color accent palette (forest green, </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A neo-brutalist editorial presentation system built for 1920x1080 slides. The deck anchors on a warm cream canvas with heavy 4px ink borders, hard offset drop-shadows, and a bold four-color accent palette (forest green, </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#EFE9D9" title="#EFE9D9"></span><span class="sw" style="background:#0F0F0F" title="#0F0F0F"></span><span class="sw" style="background:#1F8A4C" title="#1F8A4C"></span><span class="sw" style="background:#EFE9D9" title="#EFE9D9"></span></span><span class="fonts">title: Archivo Black, sans-serif 400 220px -0.01em · body: Archivo Black, sans-serif 400 84px -0.01em</span></div>
       <div class="shots">
           <figure>
@@ -2541,7 +2740,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A cheerful, childlike presentation system built around the chunky display face Fredoka One and the rounded humanist sans Quicksand. The palette is a sunny garden — cream canvas, turquoise, soft pink, butter yellow, mint,</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A cheerful, childlike presentation system built around the chunky display face Fredoka One and the rounded humanist sans Quicksand. The palette is a sunny garden — cream canvas, turquoise, soft pink, butter yellow, mint,</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F0E6" title="#F5F0E6"></span><span class="sw" style="background:#F5F0E6" title="#F5F0E6"></span><span class="sw" style="background:#F5F0E6" title="#F5F0E6"></span><span class="sw" style="background:#F5F0E6" title="#F5F0E6"></span></span><span class="fonts">title: Fredoka One&#x27;, cursive 400 clamp(3.2rem, 7vw, 6.5rem) 0.02em · body: Fredoka One&#x27;, cursive 400 clamp(1.3rem, 2.5vw, 2rem)</span></div>
       <div class="shots">
           <figure>
@@ -2567,7 +2768,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A serif-led editorial presentation system in the register of a literary quarterly or art-book monograph. Display type runs in Source Serif 4 at weight 500 with optical-size axis engaged, scaling up to 220px for cover and</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A serif-led editorial presentation system in the register of a literary quarterly or art-book monograph. Display type runs in Source Serif 4 at weight 500 with optical-size axis engaged, scaling up to 220px for cover and</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#2e4a2a" title="#2e4a2a"></span><span class="sw" style="background:#1a1a17" title="#1a1a17"></span><span class="sw" style="background:#2e4a2a" title="#2e4a2a"></span><span class="sw" style="background:#2e4a2a" title="#2e4a2a"></span></span><span class="fonts">title: Source Serif 4&#x27;, &#x27;Source Serif Pro&#x27;, Georgia, serif 500 220 -0.02em · body: Source Serif 4&#x27;, &#x27;Source Serif Pro&#x27;, Georgia, serif 500 84 -0.01em</span></div>
       <div class="shots">
           <figure>
@@ -2593,7 +2796,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A bold display-serif editorial system in the register of a fashion masthead or vintage magazine cover. Bodoni Moda runs at weight 900 across a wide scale (44–460px), set against a saturated emerald-green canvas with deep</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A bold display-serif editorial system in the register of a fashion masthead or vintage magazine cover. Bodoni Moda runs at weight 900 across a wide scale (44–460px), set against a saturated emerald-green canvas with deep</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#3CD896" title="#3CD896"></span><span class="sw" style="background:#0F1A5C" title="#0F1A5C"></span><span class="sw" style="background:#3CD896" title="#3CD896"></span><span class="sw" style="background:#3CD896" title="#3CD896"></span></span><span class="fonts">title: Bodoni Moda&#x27;, serif 900 460 -0.04em · body: Bodoni Moda&#x27;, serif 900 120 -0.015em</span></div>
       <div class="shots">
           <figure>
@@ -2619,7 +2824,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A quiet, editorial-serif presentation system in the register of a well-bound monograph or boutique brand book. Playfair Display at weight 400 (never bold) carries every headline, italicized in terracotta coral for accent</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A quiet, editorial-serif presentation system in the register of a well-bound monograph or boutique brand book. Playfair Display at weight 400 (never bold) carries every headline, italicized in terracotta coral for accent</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#192b1b" title="#192b1b"></span><span class="sw" style="background:#192b1b" title="#192b1b"></span><span class="sw" style="background:#c8524a" title="#c8524a"></span><span class="sw" style="background:#192b1b" title="#192b1b"></span></span><span class="fonts">title: Playfair Display&#x27;, &#x27;Noto Serif SC&#x27;, Georgia, serif 400 10vw -0.01em · body: Playfair Display&#x27;, &#x27;Noto Serif SC&#x27;, Georgia, serif 400 3.2vw -0.01em</span></div>
       <div class="shots">
           <figure>
@@ -2645,7 +2852,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A warm, single-ink editorial system in the register of a supper-club poster, a small-batch zine, or a Risograph-printed program. The entire system runs in one ink color — a warm rust terracotta (#B53D2A) — on a buttery c</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A warm, single-ink editorial system in the register of a supper-club poster, a small-batch zine, or a Risograph-printed program. The entire system runs in one ink color — a warm rust terracotta (#B53D2A) — on a buttery c</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF1E2" title="#FAF1E2"></span><span class="sw" style="background:#B53D2A" title="#B53D2A"></span><span class="sw" style="background:#FAF1E2" title="#FAF1E2"></span><span class="sw" style="background:#FAF1E2" title="#FAF1E2"></span></span><span class="fonts">title: Fraunces&#x27;, Georgia, serif 400 clamp(180px, min(22vw, 38vh), 480px) -0.02em · body: Bricolage Grotesque&#x27;, sans-serif 800 clamp(48px, min(5vw, 8.4vh), 100px) -0.012em</span></div>
       <div class="shots">
           <figure>
@@ -2671,7 +2880,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A warm, material-tactile presentation system inspired by a high-end product landing page. Dark forest green is the dominant environment, warmed by a low atmospheric wood-brown glow from the bottom-right corner of every d</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A warm, material-tactile presentation system inspired by a high-end product landing page. Dark forest green is the dominant environment, warmed by a low atmospheric wood-brown glow from the bottom-right corner of every d</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#232E26" title="#232E26"></span><span class="sw" style="background:#232E26" title="#232E26"></span><span class="sw" style="background:#232E26" title="#232E26"></span><span class="sw" style="background:#232E26" title="#232E26"></span></span><span class="fonts">title: Bricolage Grotesque, Noto Sans SC, sans-serif 800 12vw -0.03em · body: DM Sans, Noto Sans SC, sans-serif 400 1.05vw</span></div>
       <div class="shots">
           <figure>
@@ -2697,7 +2908,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A literary editorial system rendered in black ink on cream paper. Ultra-light geometric sans (Jost at weight 200–300) carries every headline; Lora italic serif handles quote text and insight-card titles; a monospace face p</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A literary editorial system rendered in black ink on cream paper. Ultra-light geometric sans (Jost at weight 200–300) carries every headline; Lora italic serif handles quote text and insight-card titles; a monospace face p</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAFADF" title="#FAFADF"></span><span class="sw" style="background:#FAFADF" title="#FAFADF"></span><span class="sw" style="background:#FAFADF" title="#FAFADF"></span><span class="sw" style="background:#FAFADF" title="#FAFADF"></span></span><span class="fonts">title: Jost, Noto Sans SC, system-ui, sans-serif 200 8.5vw -0.02em · body: Jost, Noto Sans SC, system-ui, sans-serif 300 1.1vw</span></div>
       <div class="shots">
           <figure>
@@ -2723,7 +2936,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A heavy editorial poster system built on a strict 12-column × 8-row block grid with neon-yellow accents on putty-ecru. Space Grotesk at weight 700 in strict uppercase carries every display moment; a monospace face carries </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A heavy editorial poster system built on a strict 12-column × 8-row block grid with neon-yellow accents on putty-ecru. Space Grotesk at weight 700 in strict uppercase carries every display moment; a monospace face carries </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ECECE8" title="#ECECE8"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#F5F4EF" title="#F5F4EF"></span><span class="sw" style="background:#F5F4EF" title="#F5F4EF"></span></span><span class="fonts">title: Space Grotesk, Helvetica Neue, Helvetica, Arial, sans-serif 700 132px -0.02em · body: Space Grotesk, Helvetica Neue, Helvetica, Arial, sans-serif 700 240px -0.04em</span></div>
       <div class="shots">
           <figure>
@@ -2749,7 +2964,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A WPA-poster-meets-political-campaign presentation system built on three typefaces and a five-color palette that reduces to three functional roles. Alfa Slab One — a compressed slab serif — does all the heavy lifting at </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A WPA-poster-meets-political-campaign presentation system built on three typefaces and a five-color palette that reduces to three functional roles. Alfa Slab One — a compressed slab serif — does all the heavy lifting at </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F5F2EA" title="#F5F2EA"></span><span class="sw" style="background:#0E0E14" title="#0E0E14"></span><span class="sw" style="background:#2C2CDC" title="#2C2CDC"></span><span class="sw" style="background:#2C2CDC" title="#2C2CDC"></span></span><span class="fonts">title: Alfa Slab One, serif 400 540px -0.02em · body: Alfa Slab One, serif 400 120px 0.005em</span></div>
       <div class="shots">
           <figure>
@@ -2775,7 +2992,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A field-notebook editorial system rendered as yellow legal-pad paper with deep cobalt-blue ink. Every slide carries a fractalnoise paper-grain overlay, hand-drawn safety-pin SVG illustrations that &quot;pin&quot; cards to the page</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A field-notebook editorial system rendered as yellow legal-pad paper with deep cobalt-blue ink. Every slide carries a fractalnoise paper-grain overlay, hand-drawn safety-pin SVG illustrations that &quot;pin&quot; cards to the page</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#EFE56A" title="#EFE56A"></span><span class="sw" style="background:#1F3A8A" title="#1F3A8A"></span><span class="sw" style="background:#EFE56A" title="#EFE56A"></span><span class="sw" style="background:#EFE56A" title="#EFE56A"></span></span><span class="fonts">title: Space Grotesk, Helvetica Neue, Arial, sans-serif 700 196px -0.04em · body: Space Grotesk, Helvetica Neue, Arial, sans-serif 700 96px -0.03em</span></div>
       <div class="shots">
           <figure>
@@ -2801,7 +3020,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A nocturnal couture editorial system rendered in hot fuchsia ink on dim warm-black paper, with a soft film-grain overlay and a hairline interior frame. DM Serif Display carries every script and editorial moment at sizes </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A nocturnal couture editorial system rendered in hot fuchsia ink on dim warm-black paper, with a soft film-grain overlay and a hairline interior frame. DM Serif Display carries every script and editorial moment at sizes </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#060507" title="#060507"></span><span class="sw" style="background:#060507" title="#060507"></span><span class="sw" style="background:#060507" title="#060507"></span><span class="sw" style="background:#060507" title="#060507"></span></span><span class="fonts">title: DM Serif Display, serif 400 540px -0.01em · body: DM Serif Display, serif 400 156px</span></div>
       <div class="shots">
           <figure>
@@ -2827,7 +3048,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A warm, hand-crafted editorial system built on a peach-clay canvas with charcoal ink as the only \&quot;color.\&quot; Display type runs in Syne (weight 700–800, tight negative tracking); body type runs in Space Grotesk at weight 4</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A warm, hand-crafted editorial system built on a peach-clay canvas with charcoal ink as the only \&quot;color.\&quot; Display type runs in Syne (weight 700–800, tight negative tracking); body type runs in Space Grotesk at weight 4</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F0C8A0" title="#F0C8A0"></span><span class="sw" style="background:#1A1A1A" title="#1A1A1A"></span><span class="sw" style="background:#F0C8A0" title="#F0C8A0"></span><span class="sw" style="background:#F0C8A0" title="#F0C8A0"></span></span><span class="fonts">title: Syne, sans-serif 800 clamp(4rem, 10vw, 9rem) -0.03em · body: Syne, sans-serif 700 1.3rem</span></div>
       <div class="shots">
           <figure>
@@ -2853,7 +3076,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A neobrutalist presentation system where 3px solid black borders ARE the layout. Display type runs in the native system sans-serif stack (Segoe UI / system-ui) at weight 900 in strict uppercase — no web fonts loaded. The</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A neobrutalist presentation system where 3px solid black borders ARE the layout. Display type runs in the native system sans-serif stack (Segoe UI / system-ui) at weight 900 in strict uppercase — no web fonts loaded. The</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#E5EDD6" title="#E5EDD6"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span></span><span class="fonts">title: Segoe UI, system-ui, -apple-system, Helvetica, Arial, sans-serif 900 clamp(48px, 7vw, 96px) -0.02em · body: Segoe UI, system-ui, -apple-system, Helvetica, Arial, sans-serif 700 clamp(11px, 1vw, 13px) 0.08em</span></div>
       <div class="shots">
           <figure>
@@ -2879,7 +3104,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A Windows 95 / 98 desktop-OS aesthetic rendered as a presentation system. Every slide is a window — beveled chrome, navy gradient title bar, MS Sans Serif body type, with chart areas, group boxes, and panels arranged as </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A Windows 95 / 98 desktop-OS aesthetic rendered as a presentation system. Every slide is a window — beveled chrome, navy gradient title bar, MS Sans Serif body type, with chart areas, group boxes, and panels arranged as </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#c0c0c0" title="#c0c0c0"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#c0c0c0" title="#c0c0c0"></span><span class="sw" style="background:#c0c0c0" title="#c0c0c0"></span></span><span class="fonts">title: MS Sans Serif, Segoe UI, Tahoma, Geneva, Verdana, sans-serif 400 16px · body: MS Sans Serif, Segoe UI, Tahoma, Geneva, Verdana, sans-serif 400 12px</span></div>
       <div class="shots">
           <figure>
@@ -2905,7 +3132,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A cassette-package editorial system on warm cream paper with a six-color primary palette and warm-brown ink. Display type runs in Big Shoulders Display (condensed industrial display sans at weight 900); body in Albert Sa</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A cassette-package editorial system on warm cream paper with a six-color primary palette and warm-brown ink. Display type runs in Big Shoulders Display (condensed industrial display sans at weight 900); body in Albert Sa</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F1E6CB" title="#F1E6CB"></span><span class="sw" style="background:#3A2516" title="#3A2516"></span><span class="sw" style="background:#3D9F47" title="#3D9F47"></span><span class="sw" style="background:#F1E6CB" title="#F1E6CB"></span></span><span class="fonts">title: Big Shoulders Display&#x27;, sans-serif 900 clamp(120px, min(14vw, 22vh), 280px) -0.025em · body: Big Shoulders Display&#x27;, sans-serif 900 clamp(48px, min(5.4vw, 9vh), 110px) -0.018em</span></div>
       <div class="shots">
           <figure>
@@ -2931,7 +3160,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A Post-it-note-and-cork-board presentation system. Every content block is a colored sticky note on a textured paper or cork surface, layered with red thumbtacks, masking tape, and decorative doodles. Display type runs in</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A Post-it-note-and-cork-board presentation system. Every content block is a colored sticky note on a textured paper or cork surface, layered with red thumbtacks, masking tape, and decorative doodles. Display type runs in</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f7f5f0" title="#f7f5f0"></span><span class="sw" style="background:#2d2a26" title="#2d2a26"></span><span class="sw" style="background:#b2f2bb" title="#b2f2bb"></span><span class="sw" style="background:#ffe066" title="#ffe066"></span></span><span class="fonts">title: Shrikhand&#x27;, cursive 400 clamp(2.5rem, 5vw, 4.5rem) 0.02em · body: Zilla Slab&#x27;, serif 400 1.1rem</span></div>
       <div class="shots">
           <figure>
@@ -2957,7 +3188,9 @@
         </div>
         <div class="right"><span class="score">5.0</span></div>
       </header>
-      <p class="desc">A literary editorial presentation system in the spirit of a long-form magazine — The Economist&#x27;s restraint crossed with a private intelligence briefing. Source Serif 4 carries every headline with roman/italic mixing mid-</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A literary editorial presentation system in the spirit of a long-form magazine — The Economist&#x27;s restraint crossed with a private intelligence briefing. Source Serif 4 carries every headline with roman/italic mixing mid-</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1C2644" title="#1C2644"></span><span class="sw" style="background:#1A2030" title="#1A2030"></span><span class="sw" style="background:#1C2644" title="#1C2644"></span><span class="sw" style="background:#1C2644" title="#1C2644"></span></span><span class="fonts">title: Source Serif 4, Noto Serif SC, Georgia, serif 700 9.5vw -0.02em · body: DM Sans, Noto Sans SC, system-ui, sans-serif 400 1.05vw</span></div>
       <div class="shots">
           <figure>
@@ -2983,7 +3216,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A warm magazine spread aesthetic — the kind of layout a small print quarterly with field-notes pretensions would commission. Cormorant Garamond carries every headline and ornamental moment with mixed roman and italic; Wo</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A warm magazine spread aesthetic — the kind of layout a small print quarterly with field-notes pretensions would commission. Cormorant Garamond carries every headline and ornamental moment with mixed roman and italic; Wo</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F2EEDF" title="#F2EEDF"></span><span class="sw" style="background:#2A241B" title="#2A241B"></span><span class="sw" style="background:#F2EEDF" title="#F2EEDF"></span><span class="sw" style="background:#F2EEDF" title="#F2EEDF"></span></span><span class="fonts">title: Cormorant Garamond, Garamond, serif 500 232px -0.02em · body: Cormorant Garamond, Garamond, serif 500 124px -0.01em</span></div>
       <div class="shots">
           <figure>
@@ -3009,7 +3244,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">A West Coast skate-poster meets municipal stencil signage system. Stardos Stencil carries every headline, numeral, and chunky display moment with its characteristic ink-break gaps; Barlow Condensed runs all metadata and </p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A West Coast skate-poster meets municipal stencil signage system. Stardos Stencil carries every headline, numeral, and chunky display moment with its characteristic ink-break gaps; Barlow Condensed runs all metadata and </p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#F4EFE0" title="#F4EFE0"></span><span class="sw" style="background:#0A0A0A" title="#0A0A0A"></span><span class="sw" style="background:#3F73B7" title="#3F73B7"></span><span class="sw" style="background:#E2DCC9" title="#E2DCC9"></span></span><span class="fonts">title: Stardos Stencil, serif 700 220px -0.015em · body: Stardos Stencil, serif 700 120px -0.005em</span></div>
       <div class="shots">
           <figure>
@@ -3035,7 +3272,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">A \&quot;Boring Studios\&quot; agency presentation system — type-as-graphic-mass in the spirit of contemporary design-studio decks (Pentagram, Anti, Order). The entire system runs on Barlow at weight 900 uppercase, with type so he</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">A \&quot;Boring Studios\&quot; agency presentation system — type-as-graphic-mass in the spirit of contemporary design-studio decks (Pentagram, Anti, Order). The entire system runs on Barlow at weight 900 uppercase, with type so he</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1C1C1C" title="#1C1C1C"></span><span class="sw" style="background:#1C1C1C" title="#1C1C1C"></span><span class="sw" style="background:#1C1C1C" title="#1C1C1C"></span><span class="sw" style="background:#1C1C1C" title="#1C1C1C"></span></span><span class="fonts">title: Barlow, Noto Sans SC, sans-serif 900 12vw -0.02em · body: Barlow, Noto Sans SC, sans-serif 900 5.5vw -0.03em</span></div>
       <div class="shots">
           <figure>
@@ -3061,7 +3300,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">An essay-pinned-to-a-wall presentation system — a single monochromatic field of deep periwinkle (#2A3870) with warm chartreuse-yellow type (#E8D85C) floating centered on it, every slide. Italic Cormorant Garamond carries</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">An essay-pinned-to-a-wall presentation system — a single monochromatic field of deep periwinkle (#2A3870) with warm chartreuse-yellow type (#E8D85C) floating centered on it, every slide. Italic Cormorant Garamond carries</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#2A3870" title="#2A3870"></span><span class="sw" style="background:#2A3870" title="#2A3870"></span><span class="sw" style="background:#2A3870" title="#2A3870"></span><span class="sw" style="background:#2A3870" title="#2A3870"></span></span><span class="fonts">title: Cormorant Garamond, Noto Serif SC, Georgia, serif 400 11vw -0.01em · body: Cormorant Garamond, Noto Serif SC, Georgia, serif 400 7vw</span></div>
       <div class="shots">
           <figure>
@@ -3087,7 +3328,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">arctic-cool（cool — 冷色调 蓝/青/石板灰）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f2f6fb、强调 #1e6fb0。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">arctic-cool（cool — 冷色调 蓝/青/石板灰）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f2f6fb、强调 #1e6fb0。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f2f6fb" title="#f2f6fb"></span><span class="sw" style="background:#0e1f33" title="#0e1f33"></span><span class="sw" style="background:#1e6fb0" title="#1e6fb0"></span><span class="sw" style="background:#17b1b1" title="#17b1b1"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3113,7 +3356,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">blueprint（蓝图工程）：来自 36 套 PPT 主题库的完整 token 主题，底色 #0b3a6f、强调 #ffffff。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">blueprint（蓝图工程）：来自 36 套 PPT 主题库的完整 token 主题，底色 #0b3a6f、强调 #ffffff。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#0b3a6f" title="#0b3a6f"></span><span class="sw" style="background:#e8f3ff" title="#e8f3ff"></span><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#aee1ff" title="#aee1ff"></span></span><span class="fonts">title: &#x27;JetBrains Mono&#x27;,monospace · body: &#x27;JetBrains Mono&#x27;,&#x27;IBM Plex Mono&#x27;,monospace</span></div>
       <div class="shots">
           <figure>
@@ -3139,7 +3384,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">catppuccin-latte（latte — catppuccin 浅）：来自 36 套 PPT 主题库的完整 token 主题，底色 #eff1f5、强调 #8839ef。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">catppuccin-latte（latte — catppuccin 浅）：来自 36 套 PPT 主题库的完整 token 主题，底色 #eff1f5、强调 #8839ef。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#eff1f5" title="#eff1f5"></span><span class="sw" style="background:#4c4f69" title="#4c4f69"></span><span class="sw" style="background:#8839ef" title="#8839ef"></span><span class="sw" style="background:#1e66f5" title="#1e66f5"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3165,7 +3412,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">catppuccin-mocha（mocha — catppuccin 深）：来自 36 套 PPT 主题库的完整 token 主题，底色 #1e1e2e、强调 #cba6f7。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">catppuccin-mocha（mocha — catppuccin 深）：来自 36 套 PPT 主题库的完整 token 主题，底色 #1e1e2e、强调 #cba6f7。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1e1e2e" title="#1e1e2e"></span><span class="sw" style="background:#cdd6f4" title="#cdd6f4"></span><span class="sw" style="background:#cba6f7" title="#cba6f7"></span><span class="sw" style="background:#89b4fa" title="#89b4fa"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3191,7 +3440,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">dracula（dracula 深色）：来自 36 套 PPT 主题库的完整 token 主题，底色 #282a36、强调 #bd93f9。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">dracula（dracula 深色）：来自 36 套 PPT 主题库的完整 token 主题，底色 #282a36、强调 #bd93f9。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#282a36" title="#282a36"></span><span class="sw" style="background:#f8f8f2" title="#f8f8f2"></span><span class="sw" style="background:#bd93f9" title="#bd93f9"></span><span class="sw" style="background:#ff79c6" title="#ff79c6"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3217,7 +3468,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">engineering-whiteprint（whiteprint — 工程白图）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #0a1e46。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">engineering-whiteprint（whiteprint — 工程白图）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #0a1e46。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0a1e46" title="#0a1e46"></span><span class="sw" style="background:#0a1e46" title="#0a1e46"></span><span class="sw" style="background:#1e5ac4" title="#1e5ac4"></span></span><span class="fonts">title: &#x27;JetBrains Mono&#x27;,&#x27;Inter&#x27;,monospace · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3243,7 +3496,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">gruvbox-dark（dark）：来自 36 套 PPT 主题库的完整 token 主题，底色 #282828、强调 #fabd2f。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">gruvbox-dark（dark）：来自 36 套 PPT 主题库的完整 token 主题，底色 #282828、强调 #fabd2f。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#282828" title="#282828"></span><span class="sw" style="background:#ebdbb2" title="#ebdbb2"></span><span class="sw" style="background:#fabd2f" title="#fabd2f"></span><span class="sw" style="background:#fe8019" title="#fe8019"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3269,7 +3524,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">memphis-pop（pop — 孟菲斯波普）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fef6e8、强调 #ff3d8b。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">memphis-pop（pop — 孟菲斯波普）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fef6e8、强调 #ff3d8b。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fef6e8" title="#fef6e8"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#ff3d8b" title="#ff3d8b"></span><span class="sw" style="background:#37c2d7" title="#37c2d7"></span></span><span class="fonts">title: &#x27;Archivo Black&#x27;,sans-serif · body: &#x27;Space Grotesk&#x27;,&#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3295,7 +3552,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">midcentury（世纪中期现代）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f3ead8、强调 #d4902a。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">midcentury（世纪中期现代）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f3ead8、强调 #d4902a。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f3ead8" title="#f3ead8"></span><span class="sw" style="background:#201810" title="#201810"></span><span class="sw" style="background:#d4902a" title="#d4902a"></span><span class="sw" style="background:#2a7a7f" title="#2a7a7f"></span></span><span class="fonts">title: &#x27;Playfair Display&#x27;,&#x27;Noto Serif SC&#x27;,serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3321,7 +3580,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">news-broadcast（broadcast — 新闻播报）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #e11d2d。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">news-broadcast（broadcast — 新闻播报）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #e11d2d。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0a0a0a" title="#0a0a0a"></span><span class="sw" style="background:#e11d2d" title="#e11d2d"></span><span class="sw" style="background:#0a0a0a" title="#0a0a0a"></span></span><span class="fonts">title: &#x27;Oswald&#x27;,&#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Oswald&#x27;,&#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3347,7 +3608,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">rainbow-gradient（gradient — 彩虹渐变点缀（白底））：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #ff4d8b。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">rainbow-gradient（gradient — 彩虹渐变点缀（白底））：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #ff4d8b。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#0c0d10" title="#0c0d10"></span><span class="sw" style="background:#ff4d8b" title="#ff4d8b"></span><span class="sw" style="background:#7a5cff" title="#7a5cff"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3373,7 +3636,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">retro-tv（tv — 复古显像管）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f5ecd7、强调 #e67e14。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">retro-tv（tv — 复古显像管）：来自 36 套 PPT 主题库的完整 token 主题，底色 #f5ecd7、强调 #e67e14。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#f5ecd7" title="#f5ecd7"></span><span class="sw" style="background:#2a1a08" title="#2a1a08"></span><span class="sw" style="background:#e67e14" title="#e67e14"></span><span class="sw" style="background:#c73a1f" title="#c73a1f"></span></span><span class="fonts">title: &#x27;Playfair Display&#x27;,&#x27;Noto Serif SC&#x27;,serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3399,7 +3664,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">rose-pine（pine）：来自 36 套 PPT 主题库的完整 token 主题，底色 #191724、强调 #ebbcba。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">rose-pine（pine）：来自 36 套 PPT 主题库的完整 token 主题，底色 #191724、强调 #ebbcba。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#191724" title="#191724"></span><span class="sw" style="background:#e0def4" title="#e0def4"></span><span class="sw" style="background:#ebbcba" title="#ebbcba"></span><span class="sw" style="background:#c4a7e7" title="#c4a7e7"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3425,7 +3692,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">sharp-mono（mono — 锐利黑白高对比）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #000000。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">sharp-mono（mono — 锐利黑白高对比）：来自 36 套 PPT 主题库的完整 token 主题，底色 #ffffff、强调 #000000。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#000000" title="#000000"></span><span class="sw" style="background:#000000" title="#000000"></span></span><span class="fonts">title: &#x27;Archivo Black&#x27;,sans-serif · body: &#x27;Archivo Black&#x27;,&#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3451,7 +3720,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">soft-pastel（pastel — 柔和马卡龙）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fdf7fb、强调 #f49bb8。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">soft-pastel（pastel — 柔和马卡龙）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fdf7fb、强调 #f49bb8。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fdf7fb" title="#fdf7fb"></span><span class="sw" style="background:#3a1f33" title="#3a1f33"></span><span class="sw" style="background:#f49bb8" title="#f49bb8"></span><span class="sw" style="background:#b5d5f0" title="#b5d5f0"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3477,7 +3748,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">solarized-light（light）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fdf6e3、强调 #268bd2。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">solarized-light（light）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fdf6e3、强调 #268bd2。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fdf6e3" title="#fdf6e3"></span><span class="sw" style="background:#073642" title="#073642"></span><span class="sw" style="background:#268bd2" title="#268bd2"></span><span class="sw" style="background:#2aa198" title="#2aa198"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3503,7 +3776,9 @@
         </div>
         <div class="right"><span class="score">4.0</span></div>
       </header>
-      <p class="desc">sunset-warm（warm — 暖色调 橘/珊瑚/琥珀）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fff7ef、强调 #e36a2d。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">sunset-warm（warm — 暖色调 橘/珊瑚/琥珀）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fff7ef、强调 #e36a2d。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fff7ef" title="#fff7ef"></span><span class="sw" style="background:#2a160a" title="#2a160a"></span><span class="sw" style="background:#e36a2d" title="#e36a2d"></span><span class="sw" style="background:#f2a341" title="#f2a341"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3529,7 +3804,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">terminal-green（green — 绿屏终端）：来自 36 套 PPT 主题库的完整 token 主题，底色 #030a04、强调 #00ff88。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">terminal-green（green — 绿屏终端）：来自 36 套 PPT 主题库的完整 token 主题，底色 #030a04、强调 #00ff88。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#030a04" title="#030a04"></span><span class="sw" style="background:#8cff9a" title="#8cff9a"></span><span class="sw" style="background:#00ff88" title="#00ff88"></span><span class="sw" style="background:#67ffd0" title="#67ffd0"></span></span><span class="fonts">title: &#x27;JetBrains Mono&#x27;,monospace · body: &#x27;JetBrains Mono&#x27;,&#x27;IBM Plex Mono&#x27;,monospace</span></div>
       <div class="shots">
           <figure>
@@ -3555,7 +3832,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">tokyo-night（night）：来自 36 套 PPT 主题库的完整 token 主题，底色 #1a1b26、强调 #7aa2f7。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">tokyo-night（night）：来自 36 套 PPT 主题库的完整 token 主题，底色 #1a1b26、强调 #7aa2f7。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#1a1b26" title="#1a1b26"></span><span class="sw" style="background:#c0caf5" title="#c0caf5"></span><span class="sw" style="background:#7aa2f7" title="#7aa2f7"></span><span class="sw" style="background:#bb9af7" title="#bb9af7"></span></span><span class="fonts">title: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif · body: &#x27;Inter&#x27;,&#x27;Noto Sans SC&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3581,7 +3860,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">xiaohongshu-white（white — 小红书白底高级感）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fffdfb、强调 #ff2742。</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">xiaohongshu-white（white — 小红书白底高级感）：来自 36 套 PPT 主题库的完整 token 主题，底色 #fffdfb、强调 #ff2742。</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fffdfb" title="#fffdfb"></span><span class="sw" style="background:#1a1210" title="#1a1210"></span><span class="sw" style="background:#ff2742" title="#ff2742"></span><span class="sw" style="background:#ff7a90" title="#ff7a90"></span></span><span class="fonts">title: &#x27;Noto Serif SC&#x27;,&#x27;Playfair Display&#x27;,serif · body: &#x27;Noto Sans SC&#x27;,&#x27;Inter&#x27;,sans-serif</span></div>
       <div class="shots">
           <figure>
@@ -3607,7 +3888,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">Friendly product deck — white canvas, geometric sans, four-colour accent system, soft rounded cards.</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">Friendly product deck — white canvas, geometric sans, four-colour accent system, soft rounded cards.</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#ffffff" title="#ffffff"></span><span class="sw" style="background:#202124" title="#202124"></span><span class="sw" style="background:#1a73e8" title="#1a73e8"></span><span class="sw" style="background:#ea4335" title="#ea4335"></span></span><span class="fonts"></span></div>
       <div class="shots">
           <figure>
@@ -3633,7 +3916,9 @@
         </div>
         <div class="right"><span class="score">4.5</span></div>
       </header>
-      <p class="desc">Blocky sandbox aesthetic — grass-green and dirt-brown on dark stone, pixel type, beveled GUI buttons, inventory-slot footer, zero rounded corners.</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">Blocky sandbox aesthetic — grass-green and dirt-brown on dark stone, pixel type, beveled GUI buttons, inventory-slot footer, zero rounded corners.</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#26222B" title="#26222B"></span><span class="sw" style="background:#F9FFFF" title="#F9FFFF"></span><span class="sw" style="background:#6CC349" title="#6CC349"></span><span class="sw" style="background:#6CC349" title="#6CC349"></span></span><span class="fonts"></span></div>
       <div class="shots">
           <figure>
@@ -3659,7 +3944,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">Light, warm-cream developer aesthetic inspired by Replit&#x27;s IDE — terminal chrome, dot-grid texture, orange glow, and Space Grotesk headlines.</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">Light, warm-cream developer aesthetic inspired by Replit&#x27;s IDE — terminal chrome, dot-grid texture, orange glow, and Space Grotesk headlines.</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#FAF6F1" title="#FAF6F1"></span><span class="sw" style="background:#2F3034" title="#2F3034"></span><span class="sw" style="background:#FF3C00" title="#FF3C00"></span><span class="sw" style="background:#FF3C00" title="#FF3C00"></span></span><span class="fonts"></span></div>
       <div class="shots">
           <figure>
@@ -3685,7 +3972,9 @@
         </div>
         <div class="right"><span class="score na">—</span></div>
       </header>
-      <p class="desc">Playful pastel deck — peach canvas, hot-pink callouts, chunky display type, cheerful tilts and dots.</p>
+      <details class="about"><summary>风格描述</summary>
+        <p class="desc">Playful pastel deck — peach canvas, hot-pink callouts, chunky display type, cheerful tilts and dots.</p>
+      </details>
       <div class="meta"><span class="swatches"><span class="sw" style="background:#fff2e8" title="#fff2e8"></span><span class="sw" style="background:#2d1b4e" title="#2d1b4e"></span><span class="sw" style="background:#ff4d8d" title="#ff4d8d"></span><span class="sw" style="background:#6d4cff" title="#6d4cff"></span></span><span class="fonts"></span></div>
       <div class="shots">
           <figure>
