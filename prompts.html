@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>提示词总目录 · 可搜 / 可复制</title>
+<meta name="description" content="公开来源汇总的提示词底表：按源筛选、关键词搜索、看正文、一键复制。纯静态、无外部依赖、可离线打开。">
+<style>
+:root{--bg:#0f1115;--panel:#171a21;--line:#2b303b;--fg:#e9ecf2;--dim:#9aa3b2;--accent:#6ea8fe;--bad:#f85149;--ok:#3fb950}
+@media (prefers-color-scheme:light){:root{--bg:#f6f7f9;--panel:#fff;--line:#e2e5ea;--fg:#1a1d23;--dim:#5c6470;--accent:#0b62d6;--bad:#cf222e;--ok:#1a7f37}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 -apple-system,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}
+.wrap{max-width:1400px;margin:0 auto;padding:32px 22px 90px}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.01em}
+h1 .pill{font-size:12px;vertical-align:middle;background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:999px;padding:3px 10px;margin-left:8px}
+.lede{color:var(--dim);max-width:92ch;margin:0}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0 6px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 15px}
+.stat b{font-size:19px;display:block}
+.stat span{color:var(--dim);font-size:12px}
+.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:11px 0;margin:20px 0 12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip small{opacity:.72;margin-left:4px}
+.bar input[type=search]{margin-left:auto;background:var(--panel);border:1px solid var(--line);color:var(--fg);border-radius:8px;padding:7px 12px;font-size:13px;min-width:230px}
+.btn{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:12.5px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.chk{font-size:12.5px;color:var(--dim);display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.status{color:var(--dim);font-size:12.5px;margin:8px 0 4px;min-height:20px}
+.status.bad{color:var(--bad)}.status.ok{color:var(--ok)}
+.list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:11px 14px}
+.card .t{font-size:15px;font-weight:600;margin:0 0 4px}
+.card .meta{color:var(--dim);font-size:12.5px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
+.badge{font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:1px 8px;color:var(--dim)}
+.badge.src{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.badge.img{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.links{font-size:12px;color:var(--dim);margin-top:6px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.links a{color:var(--accent);text-decoration:none}
+.links a:hover{text-decoration:underline}
+.links code{background:color-mix(in srgb,var(--fg) 7%,transparent);border-radius:5px;padding:1px 6px;font-size:11.5px}
+.acts{display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap}
+.snip{color:var(--dim);font-size:12.5px;margin-top:6px;background:color-mix(in srgb,var(--fg) 5%,transparent);border-radius:7px;padding:6px 9px}
+pre.text{display:none;margin:10px 0 0;background:color-mix(in srgb,var(--fg) 5%,transparent);border:1px solid var(--line);border-radius:8px;padding:10px 12px;white-space:pre-wrap;word-break:break-word;max-height:440px;overflow:auto;font:12.8px/1.7 ui-monospace,Consolas,"Courier New",monospace}
+pre.text.on{display:block}
+.ta{color:var(--dim);font-size:12px}
+.pager{display:flex;gap:10px;align-items:center;justify-content:center;margin:20px 0 0;color:var(--dim);font-size:13px}
+.empty{color:var(--dim);padding:36px;text-align:center}
+footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;color:var(--dim);font-size:12.5px}
+footer h3{font-size:13px;color:var(--fg);margin:16px 0 6px}
+footer table{border-collapse:collapse;font-size:12px}
+footer td,footer th{border:1px solid var(--line);padding:4px 9px;text-align:left;vertical-align:top}
+footer a{color:var(--accent);text-decoration:none}
+.selfcase{font:12.5px/1.8 ui-monospace,Consolas,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>提示词总目录<span class="pill" id="pill">只读浏览页</span></h1>
+  <p class="lede">公开来源汇总的提示词底表：<b>按源筛选 / 关键词搜索 / 看正文 / 一键复制</b>。
+    数据来自 <code>catalog.jsonl</code>（全项目归一后的总目录）。页面纯静态、按需载入分片、<b>不依赖任何外部资源</b>，可直接离线打开。</p>
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <div class="chips" id="srcChips"></div>
+    <div class="chips" id="kindChips"></div>
+    <label class="chk"><input type="checkbox" id="imgOnly"> 只看有配图的</label>
+    <label class="chk"><input type="checkbox" id="uniqOnly"> 只看唯一文本（跨源去重）</label>
+    <input id="q" type="search" placeholder="搜索标题 / 分类 / 作者 / 出处…" autocomplete="off">
+    <button class="btn" id="fullBtn" title="对全部正文做子串搜索（会按需载入正文分片）">在全部正文中搜索</button>
+  </div>
+  <div class="status" id="status">载入索引…</div>
+  <div class="list" id="list"></div>
+  <div class="pager" id="pager"></div>
+  <footer>
+    <div><b>版权与用途：</b>提示词来自公开来源，版权归原作者；此处仅用于个人研究与风格对比。
+      每条卡片都保留来源与出处（<code>id</code> / <code>origin_id</code> / <code>origin_file</code>）与作者署名，未做任何抹除。</div>
+    <div><b>署名要求：</b>非商业使用需保留出处与链接（见下方「源一览」的原始仓库/站点），商用需联系原作者授权。
+      <code>shuixian-archive</code> / <code>shuixian-archive-modern</code> 来自
+      <a href="https://github.com/BaYue-SYJ/Awesome-shuixian-prompts-archive" target="_blank" rel="noopener">BaYue-SYJ/Awesome-shuixian-prompts-archive</a>，按 <b>署名使用</b> 条款转载。</div>
+    <h3>源一览（点源名筛选）</h3>
+    <div id="srcTable"></div>
+    <div class="note">链接列里标「按目录名推得」的，是源文件里没有 URL、按下载目录约定 <code>Owner__Repo</code> 补的
+      （该约定在 shuixian / freestylefly / SurgePix 三个源上被源文件自身的 URL 验证过）；其余链接取自源数据本身。</div>
+    <h3>数据与产物</h3>
+    <div>数据指纹（catalog.jsonl sha256 前 16 位）：<code id="fp"></code></div>
+    <div>索引分片 <span id="pinfo"></span> · 正文分片 <span id="tinfo"></span> · 正文按需载入，不进首屏</div>
+    <div>重新生成：<code>python .scratch\tools\build_prompt_site.py --build</code>（读 <code>.cache\prompt-catalog\catalog.jsonl</code>）</div>
+  </footer>
+</div>
+<script>window.PC={manifest:null,tables:null,_idx:{},_txt:{}};</script>
+<script src="prompts-data/manifest.js"></script>
+<script>
+(function(){
+'use strict';
+var $=function(s){return document.querySelector(s)};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function num(n){return Number(n||0).toLocaleString('en-US')}
+function status(msg,cls){var el=$('#status');if(!el)return;el.textContent=msg;el.className='status'+(cls?' '+cls:'')}
+window.addEventListener('error',function(e){status('页面脚本出错：'+(e&&e.message?e.message:e),'bad')});
+
+PC.idx=function(i,base,rows){PC._idx[i]={base:base,rows:rows}};
+PC.txt=function(i,b64){PC._txt[i]=b64};
+
+function loadScript(src){return new Promise(function(res,rej){var s=document.createElement('script');s.src=src;
+  s.onload=function(){res()};s.onerror=function(){rej(new Error('无法载入 '+src))};document.head.appendChild(s)})}
+function b64Bytes(b64){var bin=atob(b64),u8=new Uint8Array(bin.length);for(var i=0;i<bin.length;i++){u8[i]=bin.charCodeAt(i)}return u8}
+function gunzip(b64){
+  if(typeof DecompressionStream!=='function'){return Promise.reject(new Error('本浏览器不支持 DecompressionStream，请用新版 Edge/Chrome 打开'))}
+  var ds=new DecompressionStream('gzip');
+  var stream=new Blob([b64Bytes(b64)]).stream().pipeThrough(ds);
+  return new Response(stream).text();
+}
+
+var M=null,TAB=null,ROWS=[],IDXP=[],TXTP=[],txtCache=new Map(),txtInflight=new Map();
+var TXT_CACHE_MAX=200;
+var state={q:'',src:'',kind:'',img:false,uniq:false,page:1,per:40,fullHits:null,fullSnips:null,fullNeedle:''};
+var PARAMS=null;
+
+function param(k){return PARAMS&&PARAMS.get(k)}
+function readParams(){
+  var p=new URLSearchParams((location.search||'').replace(/^\?/,''));
+  var h=(location.hash||'').replace(/^#/,'');
+  if(h){new URLSearchParams(h).forEach(function(v,k){if(!p.get(k))p.set(k,v)})}
+  return p;
+}
+function findPart(ranges,k){var lo=0,hi=ranges.length-1;while(lo<=hi){var mid=(lo+hi)>>1,p=ranges[mid];
+  if(k<p.base){hi=mid-1}else if(k>=p.base+p.count){lo=mid+1}else{return mid}}return -1}
+function textOf(k){var i=findPart(TXTP,k);if(i<0)return Promise.reject(new Error('没有覆盖该行的正文分片'));
+  return loadTxtPart(i).then(function(arr){return arr[k-TXTP[i].base]||''})}
+function loadTxtPart(i){
+  if(txtCache.has(i))return Promise.resolve(txtCache.get(i));
+  if(txtInflight.has(i))return txtInflight.get(i);
+  var pr=loadScript(TXTP[i].file).then(function(){return gunzip(PC._txt[i])}).then(function(json){
+    var arr=JSON.parse(json);
+    if(txtCache.size>=TXT_CACHE_MAX){txtCache.delete(txtCache.keys().next().value)}
+    txtCache.set(i,arr);txtInflight.delete(i);return arr;
+  }).catch(function(e){txtInflight.delete(i);throw e});
+  txtInflight.set(i,pr);return pr;
+}
+
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(t).catch(function(){return legacyCopy(t)})}
+  return legacyCopy(t);
+}
+function legacyCopy(t){var a=document.createElement('textarea');a.value=t;a.style.position='fixed';a.style.top='-1000px';
+  document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(a);return Promise.resolve()}
+
+function buildStatsAndChips(){
+  var cells=[['总行数',num(M.rows)],['唯一文本',num(M.unique)],['源',num(M.sources.length)],['总字数',num(M.chars)],['有配图',num(M.has_img)],['有作者署名',num(M.has_author)]];
+  $('#stats').innerHTML=cells.map(function(c){return '<div class="stat"><b>'+c[1]+'</b><span>'+c[0]+'</span></div>'}).join('');
+  var sc=$('#srcChips');
+  sc.innerHTML='<button class="chip on" data-src="">全部<small>'+num(M.rows)+'</small></button>'
+    +M.sources.map(function(s){return '<button class="chip" data-src="'+esc(s.name)+'">'+esc(s.name)+'<small>'+num(s.rows)+'</small></button>'}).join('');
+  var kc=$('#kindChips');
+  var kl={style:'风格',case:'案例',template:'模板'};
+  kc.innerHTML='<button class="chip on" data-kind="">全部类型</button>'
+    +M.kinds.map(function(k){return '<button class="chip" data-kind="'+esc(k)+'">'+(kl[k]||esc(k))+'</button>'}).join('');
+  function wire(box,attr,key){
+    box.addEventListener('click',function(e){
+      var b=e.target.closest('.chip');if(!b)return;
+      state[key]=b.getAttribute('data-'+attr)||'';
+      state.page=1;state.fullHits=null;state.fullSnips=null;
+      [].forEach.call(box.querySelectorAll('.chip'),function(c){c.classList.toggle('on',c===b)});
+      render();
+    });
+  }
+  wire(sc,'src','src');wire(kc,'kind','kind');
+  var st=['<table><tr><th>源</th><th>行数</th><th>唯一</th><th>有配图</th><th>有作者</th><th>原始仓库 / 站点</th></tr>'];
+  M.sources.forEach(function(s){
+    st.push('<tr><td>'+esc(s.name)+'</td><td>'+num(s.rows)+'</td><td>'+num(s.unique)+'</td><td>'+num(s.img)+'</td><td>'
+      +num(s.author)+'</td><td>'
+      +(s.home?'<a href="'+esc(s.home)+'" target="_blank" rel="noopener">'+esc(s.home)+'</a>'
+        +(s.home_src==='convention'?' <span class="badge">按目录名推得</span>':'')
+        :'<span>（未找到公开出处）</span>')+'</td></tr>');
+  });
+  st.push('</table>');
+  $('#srcTable').innerHTML=st.join('');
+  $('#fp').textContent=M.source_sha256.slice(0,16);
+  $('#pinfo').textContent=IDXP.length+' 个（共 '+num(M.rows)+' 行）';
+  $('#tinfo').textContent=TXTP.length+' 个（gzip 后共 '+num(Math.round(TXTP.reduce(function(a,b){return a+b.gz},0)/1024))+' KB）';
+}
+
+function decodeAll(){
+  ROWS=[];
+  var pre=M.id_prefix||'p',dig=M.id_digits||6;
+  for(var i=0;i<IDXP.length;i++){
+    var rec=PC._idx[i];if(!rec)continue;var rows=rec.rows,base=IDXP[i].base;
+    for(var j=0;j<rows.length;j++){
+      var r=rows[j],k=base+j;
+      // 记录布局：[originId, srcIdx, title, catIdx, authIdx, langIdx, chars, img, pathIdx, urlIdx, kindIdx, sha12]
+      // id 由行号推导（catalog.jsonl 里就是 p000001 顺序号），所以索引里不重复存
+      ROWS.push({k:k,id:pre+String(k+1).padStart(dig,'0'),oid:r[0]||'',src:TAB.sources[r[1]],title:r[2]||'',
+        cat:TAB.cats[r[3]]||'',author:TAB.authors[r[4]]||'',lang:TAB.langs[r[5]]||'',
+        chars:r[6],img:r[7]===1,origin:TAB.paths[r[8]]||'',url:TAB.urls[r[9]]||'',
+        kind:TAB.kinds[r[10]]||'',sha:r[11]});
+    }
+  }
+}
+
+function applyFilters(){
+  // 全文搜索命中时，关键词已经在正文上匹配过了，这里不能再拿它去卡元数据（否则会把命中结果全过滤掉）
+  var q=(state.q||'').trim().toLowerCase();
+  var toks=(state.fullHits||!q)?[]:q.split(/\s+/);
+  var out=state.fullHits?ROWS.filter(function(r){return state.fullHits.has(r.k)}):ROWS;
+  out=out.filter(function(r){
+    if(state.src&&r.src!==state.src)return false;
+    if(state.kind&&r.kind!==state.kind)return false;
+    if(state.img&&!r.img)return false;
+    if(toks.length){var hay=(r.title+' '+r.cat+' '+r.author+' '+r.src+' '+r.id+' '+r.origin).toLowerCase();
+      for(var i=0;i<toks.length;i++){if(hay.indexOf(toks[i])<0)return false}}
+    return true;
+  });
+  if(state.uniq){var seen=new Set();out=out.filter(function(r){if(seen.has(r.sha))return false;seen.add(r.sha);return true})}
+  return out;
+}
+
+function cardHTML(r){
+  var h='<div class="card" data-k="'+r.k+'">';
+  h+='<p class="t">'+esc(r.title||'(无标题)')+'</p>';
+  h+='<div class="meta"><span class="badge src">'+esc(r.src)+'</span><span class="badge">'+(KLABEL[r.kind]||esc(r.kind))+'</span>';
+  if(r.cat)h+='<span>'+esc(r.cat)+'</span>';
+  if(r.author)h+='<span>作者：'+esc(r.author)+'</span>';
+  h+='<span>'+num(r.chars)+' 字</span><span>'+esc(r.lang)+'</span>';
+  if(r.img)h+='<span class="badge img">有配图</span>';
+  h+='<span>指纹 '+esc(r.sha.slice(0,8))+'</span></div>';
+  h+='<div class="links"><code title="id">'+esc(r.id)+'</code>';
+  if(r.oid)h+='<code title="origin_id（原来源内编号，用于回查）">'+esc(r.oid)+'</code>';
+  if(r.url)h+='<a href="'+esc(r.url)+'" target="_blank" rel="noopener">来源链接</a>';
+  h+='<code title="origin_file">'+esc(r.origin)+'</code></div>';
+  if(state.fullSnips&&state.fullSnips[r.k])h+='<div class="snip">…'+esc(state.fullSnips[r.k])+'…</div>';
+  h+='<div class="acts"><button class="btn view">看正文</button><button class="btn copy">复制正文</button><span class="ta"></span></div>';
+  h+='<pre class="text"></pre></div>';
+  return h;
+}
+var KLABEL={style:'风格',case:'案例',template:'模板'};
+
+function render(){
+  var out=applyFilters();
+  var pages=Math.max(1,Math.ceil(out.length/state.per));
+  if(PARAMS&&PARAMS.get('open')){
+    var ok=+PARAMS.get('open');
+    var at=-1;for(var i=0;i<out.length;i++){if(out[i].k===ok){at=i;break}}
+    if(at>=0)state.page=Math.floor(at/state.per)+1;
+  }
+  if(state.page>pages)state.page=pages;
+  if(state.page<1)state.page=1;
+  var slice=out.slice((state.page-1)*state.per,state.page*state.per);
+  $('#list').innerHTML=slice.length?slice.map(cardHTML).join('')
+    :'<div class="empty">没有匹配的提示词。可以清空搜索、换个关键词，或点「在全部正文中搜索」。</div>';
+  $('#pager').innerHTML=out.length?('<button class="btn" id="prev">← 上一页</button><span>第 '+state.page+' / '+pages+
+    ' 页 · 共 '+num(out.length)+' 条</span><button class="btn" id="next">下一页 →</button>'):'';
+  if($('#prev')){$('#prev').disabled=state.page<=1;$('#next').disabled=state.page>=pages;
+    $('#prev').onclick=function(){state.page--;render()};$('#next').onclick=function(){state.page++;render()}}
+  var bits=['共 '+num(out.length)+' 条'];
+  if(state.uniq)bits.push('已按文本去重');
+  if(state.src)bits.push('源='+state.src);
+  if(state.kind)bits.push('类型='+(KLABEL[state.kind]||state.kind));
+  if(state.img)bits.push('仅有配图');
+  if(state.fullHits)bits.push('全文命中 '+num(state.fullHits.size)+' 条（关键词：'+state.fullNeedle+'）');
+  else if(state.q)bits.push('元数据匹配「'+state.q+'」');
+  var cls=(state.fullHits&&state.fullHits.size===0)?'bad':'';
+  status(bits.join(' · '),cls);
+}
+
+function runFull(){
+  var needle=(state.q||$('#q').value||'').trim();
+  if(needle.length<2){status('全文搜索至少 2 个字符','bad');return Promise.resolve(null)}
+  var n=needle.toLowerCase(),hits=new Set(),snips={},done=0;
+  status('全文搜索：正在按需载入正文分片… 0/'+TXTP.length);
+  var chain=Promise.resolve();
+  TXTP.forEach(function(part,i){
+    chain=chain.then(function(){
+      return loadTxtPart(i).then(function(arr){
+        for(var j=0;j<arr.length;j++){
+          var t=arr[j];if(!t)continue;
+          var pos=t.toLowerCase().indexOf(n);
+          if(pos>=0){var k=part.base+j;hits.add(k);snips[k]=t.slice(Math.max(0,pos-40),pos+n.length+70)}
+        }
+        done++;
+        if(done%6===0||done===TXTP.length){status('全文搜索：已扫描 '+done+'/'+TXTP.length+' 个分片，命中 '+hits.size+' 条…')}
+      });
+    });
+  });
+  return chain.then(function(){
+    state.fullHits=hits;state.fullSnips=snips;state.fullNeedle=needle;state.page=1;render();
+    status('全文搜索完成：'+hits.size+' 条命中（关键词：'+needle+'）',hits.size?'ok':'bad');
+    return hits;
+  }).catch(function(e){status('全文搜索失败：'+e.message,'bad');return null});
+}
+
+function selftestReal(){
+  var picks=[0.017,0.213,0.402,0.618,0.845].map(function(f){return Math.min(ROWS.length-1,Math.floor(ROWS.length*f))});
+  var out=[],chain=Promise.resolve();
+  status('自测：逐条验证「能否被搜到」…');
+  picks.forEach(function(k){
+    chain=chain.then(function(){
+      return textOf(k).then(function(t){
+        var clean=t.replace(/\s+/g,' ').trim();
+        var mid=Math.floor(clean.length/2);
+        var needle=clean.slice(mid,mid+18).trim()||clean.slice(0,18).trim();
+        state.q=needle;$('#q').value=needle;
+        return runFull().then(function(){
+          out.push({k:k,src:ROWS[k].src,id:ROWS[k].id,needle:needle,ok:!!(state.fullHits&&state.fullHits.has(k))});
+        });
+      });
+    });
+  });
+  return chain.then(function(){
+    var pass=out.filter(function(o){return o.ok}).length;
+    var html='<div class="card"><p class="t">自测：'+pass+'/'+out.length+' 条随机提示词都能被搜到 '+(pass===out.length?'✅':'❌')+'</p>'
+      +out.map(function(o){return '<div class="selfcase">'+(o.ok?'✅':'❌')+' 行号 k='+o.k+' · 源='+esc(o.src)+' · 关键词取自该条正文中段：「'+esc(o.needle)+'」</div>'}).join('')
+      +'<div class="meta" style="margin-top:8px">走的就是页面上「在全部正文中搜索」那条代码路径（按需载入全部分片 → 子串匹配）。'
+      +'命中集合含该行即通过。</div></div>';
+    var d=document.createElement('div');d.innerHTML=html;
+    $('#list').insertBefore(d,$('#list').firstChild);
+    status('自测：'+pass+'/'+out.length+' 通过',pass===out.length?'ok':'bad');
+  });
+}
+
+$('#list').addEventListener('click',function(e){
+  var b=e.target.closest('.view,.copy');if(!b)return;
+  var card=b.closest('.card');var k=+card.getAttribute('data-k');
+  var pre=card.querySelector('pre.text'),ta=card.querySelector('.ta');
+  if(b.classList.contains('view')){
+    if(pre.classList.contains('on')){pre.classList.remove('on');b.textContent='看正文';return}
+    ta.textContent='载入中…';
+    textOf(k).then(function(t){pre.textContent=t;pre.classList.add('on');b.textContent='收起正文';ta.textContent=num(t.length)+' 字'})
+      .catch(function(err){ta.textContent='载入失败：'+err.message});
+  }else{
+    ta.textContent='复制中…';
+    textOf(k).then(function(t){return copyText(t).then(function(){ta.textContent='已复制 '+num(t.length)+' 字'})})
+      .catch(function(err){ta.textContent='复制失败：'+err.message});
+  }
+});
+$('#imgOnly').addEventListener('change',function(){state.img=this.checked;state.page=1;render()});
+$('#uniqOnly').addEventListener('change',function(){state.uniq=this.checked;state.page=1;render()});
+var deb=null;
+$('#q').addEventListener('input',function(){var v=this.value;clearTimeout(deb);
+  deb=setTimeout(function(){state.q=v;state.fullHits=null;state.fullSnips=null;state.page=1;render()},170)});
+$('#q').addEventListener('keydown',function(e){if(e.key==='Enter'){state.q=this.value;state.fullHits=null;state.fullSnips=null;state.page=1;render()}});
+$('#fullBtn').addEventListener('click',function(){state.q=$('#q').value;runFull()});
+
+function init(){
+  M=PC.manifest;PARAMS=readParams();
+  if(!M){status('数据未载入：manifest 缺失','bad');return}
+  IDXP=M.idx;TXTP=M.txt;
+  buildStatsAndChips();
+  if(param('img')){$('#imgOnly').checked=true;state.img=true}
+  if(param('uniq')){$('#uniqOnly').checked=true;state.uniq=true}
+  if(param('q')){state.q=param('q');$('#q').value=state.q}
+  if(param('src')){state.src=param('src');[].forEach.call($('#srcChips').querySelectorAll('.chip'),function(c){c.classList.toggle('on',c.getAttribute('data-src')===state.src)})}
+  if(param('kind')){state.kind=param('kind');[].forEach.call($('#kindChips').querySelectorAll('.chip'),function(c){c.classList.toggle('on',c.getAttribute('data-kind')===state.kind)})}
+  if(param('page'))state.page=+param('page')||1;
+
+  var i=0;
+  function next(){
+    if(i>=IDXP.length){after();return}
+    status('载入索引分片 '+(i+1)+'/'+IDXP.length+'…');
+    loadScript(IDXP[i].file).then(function(){i++;next()}).catch(function(e){status('索引载入失败：'+e.message,'bad')});
+  }
+  // 注意：内联表必须先载入才能解码行，所以 TAB 的可用性检查要放在 loadScript 之后
+  loadScript('prompts-data/tables.js').then(function(){
+    TAB=PC.tables;
+    if(!TAB){status('内联表载入失败：tables.js 没有注册 PC.tables','bad');return}
+    next();
+  }).catch(function(e){status('内联表载入失败：'+e.message,'bad')});
+  function after(){
+    decodeAll();render();
+    if(param('selftest')){selftestReal()}
+    else if(param('full')&&state.q){runFull()}
+    else if(param('open')){var c=$('#list').querySelector('.card[data-k="'+param('open')+'"]');
+      if(c){var b=c.querySelector('.view');if(b)b.click()}}
+    else{status('索引就绪：'+num(ROWS.length)+' 条（可搜索 / 可筛选 / 可复制）','ok')}
+  }
+}
+if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}
+})();
+</script>
+</body>
+</html>
