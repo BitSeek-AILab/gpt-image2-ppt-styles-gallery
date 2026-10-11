@@ -1,4 +1,4 @@
-﻿<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer">
 <title>提示词 ↔ 图片 对照库</title><style>
@@ -33,11 +33,15 @@ footer{max-width:1600px;margin:0 auto;padding:0 22px 50px;color:var(--mut);font-
 </style></head><body>
 <header>
   <h1>提示词 ↔ 图片 对照库</h1>
-  <div class="sub">共 <b>19,214</b> 条配对。图片<b>热链原站 CDN</b>，未下载副本；点图片看原图与出处。</div>
-  <div class="bar"><button class="chip on" data-f="*">全部 <i>19,214</i></button><button class="chip" data-f="shuixian-archive">shuixian-archive <i>10,039</i></button><button class="chip" data-f="shuixian">shuixian <i>5,233</i></button><button class="chip" data-f="openart">openart <i>666</i></button><button class="chip" data-f="x-twitter">x-twitter <i>536</i></button><button class="chip" data-f="freestylefly">freestylefly <i>517</i></button><button class="chip" data-f="BigPengSays">BigPengSays <i>517</i></button><button class="chip" data-f="prompthero">prompthero <i>468</i></button><button class="chip" data-f="shuixian-archive-modern">shuixian-archive-modern <i>448</i></button><button class="chip" data-f="xiaoxiaodong">xiaoxiaodong <i>423</i></button><button class="chip" data-f="xianyu110">xianyu110 <i>243</i></button><button class="chip" data-f="ToseaAI">ToseaAI <i>58</i></button><button class="chip" data-f="xianyu110-latest">xianyu110-latest <i>27</i></button><button class="chip" data-f="zhihu">zhihu <i>20</i></button><button class="chip" data-f="spsrx">spsrx <i>19</i></button></div>
+  <div class="sub">共 <b>19,214</b> 条配对。<b>已按用途排序</b>：海报 / 幻灯片 / 产品电商 → 动漫卡通 → 其他设计 → 写实写真。
+    图片<b>热链原站 CDN</b>，未下载副本；点图片看原图与出处。</div>
+  <div class="bar" style="gap:6px"><span style="font-size:12px;color:var(--mut)">类别</span><button class="chip tier on" data-t="*">全部类别 <i>19,214</i></button><button class="chip tier" data-t="1">海报 / 幻灯片 / 产品电商 <i>10,915</i></button><button class="chip tier" data-t="2">动漫 / 卡通 / 插画 <i>1,971</i></button><button class="chip tier" data-t="3">其他设计向 <i>1,766</i></button><button class="chip tier" data-t="4">写实人物写真 <i>4,562</i></button></div>
+  <div class="bar"><span style="font-size:12px;color:var(--mut)">来源</span><button class="chip on" data-f="*">全部 <i>19,214</i></button><button class="chip" data-f="shuixian-archive">shuixian-archive <i>10,039</i></button><button class="chip" data-f="shuixian">shuixian <i>5,233</i></button><button class="chip" data-f="openart">openart <i>666</i></button><button class="chip" data-f="x-twitter">x-twitter <i>536</i></button><button class="chip" data-f="freestylefly">freestylefly <i>517</i></button><button class="chip" data-f="BigPengSays">BigPengSays <i>517</i></button><button class="chip" data-f="prompthero">prompthero <i>468</i></button><button class="chip" data-f="shuixian-archive-modern">shuixian-archive-modern <i>448</i></button><button class="chip" data-f="xiaoxiaodong">xiaoxiaodong <i>423</i></button><button class="chip" data-f="xianyu110">xianyu110 <i>243</i></button><button class="chip" data-f="ToseaAI">ToseaAI <i>58</i></button><button class="chip" data-f="xianyu110-latest">xianyu110-latest <i>27</i></button><button class="chip" data-f="zhihu">zhihu <i>20</i></button><button class="chip" data-f="spsrx">spsrx <i>19</i></button></div>
   <div class="bar">
     <input type="search" id="q" placeholder="搜索提示词 / 标题 / 作者…">
     <label class="tog"><input type="checkbox" id="imgonly" checked> 只看有图的</label>
+    <label class="tog"><input type="checkbox" id="noT4" checked> 隐藏「写实人物写真」类</label>
+    <label class="tog"><input type="checkbox" id="nopeople"> 更严格：连设计里出现真人的也隐藏</label>
     <span id="stat" style="font-size:12px;color:var(--mut)"></span>
   </div>
 </header>
@@ -48,7 +52,7 @@ footer{max-width:1600px;margin:0 auto;padding:0 22px 50px;color:var(--mut);font-
 </footer>
 <script>
 const DATA='prompts-gallery-data/',CHUNK=40,PER=48;
-let IDX={},ORD=[],SRC='*',Q='',PAGE=0,FILTERED=[],CACHE={},LOADED=new Set();
+let IDX={},ORD=[],SRC='*',TIER='*',Q='',PAGE=0,FILTERED=[],CACHE={},LOADED=new Set();
 const grid=document.getElementById('grid'),pager=document.getElementById('pager'),stat=document.getElementById('stat');
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=()=>res();s.onerror=()=>rej();document.head.appendChild(s);});}
@@ -99,11 +103,16 @@ async function show(){
   stat.textContent='命中 '+FILTERED.length.toLocaleString()+' / '+IDX.length.toLocaleString()+' 条';
 }
 function apply(){
-  const q=Q.trim().toLowerCase(),onlyImg=document.getElementById('imgonly').checked;
+  const q=Q.trim().toLowerCase(),onlyImg=document.getElementById('imgonly').checked,
+        noT4=document.getElementById('noT4').checked,
+        noP=document.getElementById('nopeople').checked;
   FILTERED=ORD.filter(i=>{
     const r=IDX[i];
     if(!r)return false;
     if(SRC!=='*'&&r.s!==SRC)return false;
+    if(TIER!=='*'&&String(r.T)!==String(TIER))return false;
+    if(noT4&&r.T===4)return false;      // the 写真 tier: hidden by default
+    if(noP&&r.P===1)return false;       // stricter: any real person in frame
     if(onlyImg&&r.n<1)return false;
     if(q&&!((r.t+' '+r.a+' '+r.s).toLowerCase().includes(q)))return false;
     return true;
@@ -124,8 +133,14 @@ async function loadSources(list){
   }
   return added;
 }
-document.querySelectorAll('.chip').forEach(b=>b.onclick=async()=>{
-  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+document.querySelectorAll('.chip.tier').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.chip.tier').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');TIER=b.dataset.t;apply();
+});
+document.getElementById('nopeople').addEventListener('change',apply);
+document.getElementById('noT4').addEventListener('change',apply);
+document.querySelectorAll('.chip[data-f]').forEach(b=>b.onclick=async()=>{
+  document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.remove('on'));
   b.classList.add('on');SRC=b.dataset.f;
   if(SRC!=='*'&&!LOADED.has(SRC)){ stat.textContent='载入 '+SRC+' …'; await loadSources([SRC]); }
   apply();
