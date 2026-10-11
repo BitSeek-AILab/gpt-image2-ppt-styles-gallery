@@ -1,3 +1,4 @@
 # Verification artefacts are not part of the site.
 _shots/
 _verify/
+_backup-before-hub/
