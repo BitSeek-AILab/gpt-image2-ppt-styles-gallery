@@ -1,0 +1,154 @@
+﻿<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>提示词 ↔ 图片 对照库</title><style>
+:root{--ink:#1d1b18;--mut:#6b655c;--line:#e6e2db;--bg:#f6f5f2;--card:#fff;--acc:#7a5c2e}
+*{box-sizing:border-box}
+body{font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;margin:0;background:var(--bg);color:var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:15px 22px;position:sticky;top:0;z-index:5}
+h1{font-size:19px;margin:0 0 4px} .sub{color:var(--mut);font-size:12.5px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 11px;font-size:12px;cursor:pointer;color:var(--ink);font-family:inherit}
+.chip i{color:var(--mut);font-style:normal;font-size:11px}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)} .chip.on i{color:#cfcac2}
+input[type=search]{border:1px solid var(--line);border-radius:8px;padding:7px 11px;font-size:13px;min-width:250px;font-family:inherit}
+label.tog{font-size:12.5px;color:var(--mut);display:flex;align-items:center;gap:5px;cursor:pointer}
+main{max-width:1600px;margin:0 auto;padding:16px 22px 70px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.thumbs a{display:block;width:104px;height:104px;border-radius:7px;overflow:hidden;background:#efece7}
+.thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.meta{font-size:12px;color:var(--mut);margin-bottom:5px} .meta b{color:var(--ink)}
+pre{white-space:pre-wrap;word-break:break-word;font:12.5px/1.62 ui-monospace,Consolas,monospace;
+background:#faf9f7;border:1px solid #efebe5;border-radius:6px;padding:9px;margin:0;max-height:210px;overflow:auto}
+.foot{margin-top:7px;font-size:12px;color:var(--mut);display:flex;gap:10px;flex-wrap:wrap}
+.foot a{color:var(--acc)}
+.broken{width:104px;height:104px;border-radius:7px;background:#f3f0eb;border:1px dashed #cfc8bd;
+display:flex;align-items:center;justify-content:center;font-size:10.5px;color:#8b8378;text-align:center;padding:6px}
+#pager{display:flex;gap:8px;align-items:center;justify-content:center;margin:22px 0 0;flex-wrap:wrap}
+#pager button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 12px;cursor:pointer;font-family:inherit}
+#pager button[disabled]{opacity:.45;cursor:default}
+footer{max-width:1600px;margin:0 auto;padding:0 22px 50px;color:var(--mut);font-size:12px}
+</style></head><body>
+<header>
+  <h1>提示词 ↔ 图片 对照库</h1>
+  <div class="sub">共 <b>19,214</b> 条配对。图片<b>热链原站 CDN</b>，未下载副本；点图片看原图与出处。</div>
+  <div class="bar"><button class="chip on" data-f="*">全部 <i>19,214</i></button><button class="chip" data-f="shuixian-archive">shuixian-archive <i>10,039</i></button><button class="chip" data-f="shuixian">shuixian <i>5,233</i></button><button class="chip" data-f="openart">openart <i>666</i></button><button class="chip" data-f="x-twitter">x-twitter <i>536</i></button><button class="chip" data-f="freestylefly">freestylefly <i>517</i></button><button class="chip" data-f="BigPengSays">BigPengSays <i>517</i></button><button class="chip" data-f="prompthero">prompthero <i>468</i></button><button class="chip" data-f="shuixian-archive-modern">shuixian-archive-modern <i>448</i></button><button class="chip" data-f="xiaoxiaodong">xiaoxiaodong <i>423</i></button><button class="chip" data-f="xianyu110">xianyu110 <i>243</i></button><button class="chip" data-f="ToseaAI">ToseaAI <i>58</i></button><button class="chip" data-f="xianyu110-latest">xianyu110-latest <i>27</i></button><button class="chip" data-f="zhihu">zhihu <i>20</i></button><button class="chip" data-f="spsrx">spsrx <i>19</i></button></div>
+  <div class="bar">
+    <input type="search" id="q" placeholder="搜索提示词 / 标题 / 作者…">
+    <label class="tog"><input type="checkbox" id="imgonly" checked> 只看有图的</label>
+    <span id="stat" style="font-size:12px;color:var(--mut)"></span>
+  </div>
+</header>
+<main><div class="grid" id="grid"></div><div id="pager"></div></main>
+<footer>
+  提示词与图片版权归各自原作者。本页仅作个人研究与风格对比：图片直接引用原站 CDN、未再分发副本，并保留每条出处链接；
+  原作者若要求下架请告知。<br>来源 14 个：shuixian-archive 10,039 · shuixian 5,233 · openart 666 · x-twitter 536 · freestylefly 517 · BigPengSays 517 · prompthero 468 · shuixian-archive-modern 448 · xiaoxiaodong 423 · xianyu110 243 · ToseaAI 58 · xianyu110-latest 27 · zhihu 20 · spsrx 19
+</footer>
+<script>
+const DATA='prompts-gallery-data/',CHUNK=40,PER=48;
+let IDX={},ORD=[],SRC='*',Q='',PAGE=0,FILTERED=[],CACHE={},LOADED=new Set();
+const grid=document.getElementById('grid'),pager=document.getElementById('pager'),stat=document.getElementById('stat');
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function loadScript(src){return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=()=>res();s.onerror=()=>rej();document.head.appendChild(s);});}
+function isLocal(u){return u.startsWith('file:')||/^[A-Za-z]:[\\/]/.test(u);}
+function imgTag(u){
+  if(isLocal(u)) return '<span class="broken" title="该图已在你本地素材库，无需下载">本地图<br>见素材库</span>';
+  return '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer" title="点开原图">'
+       + '<img loading="lazy" referrerpolicy="no-referrer" src="'+esc(u)+'" alt="">' + '</a>';
+}
+function renderCard(r){
+  return '<section class="card"><div class="thumbs">'+r.imgs.map(imgTag).join('')+'</div>'
+   + '<div class="meta"><b>'+esc(r.s)+'</b>'+(r.t?' · '+esc(r.t):'')+(r.a?' · '+esc(r.a):'')+'</div>'
+   + '<pre>'+esc(r.text)+'</pre>'
+   + '<div class="foot"><a href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer">出处</a>'
+   + '<span>'+r.imgs.length+' 张图</span><span>'+r.text.length+' 字</span></div></section>';
+}
+// one delegated handler: a failed hotlink becomes a visible note, not a broken tile
+document.addEventListener('error',e=>{
+  const t=e.target;
+  if(t&&t.tagName==='IMG'){
+    const s=document.createElement('span');
+    s.className='broken';s.textContent='图床不可用';
+    if(t.parentNode) t.parentNode.replaceWith(s);
+  }
+},true);
+async function ensure(k){
+  if(CACHE[k]) return;
+  CACHE[k]=[];
+  try{ await loadScript(DATA+'t'+String(k).padStart(4,'0')+'.js'); CACHE[k]=window.__T__||[]; }catch(e){}
+}
+function pageCount(){return Math.max(1,Math.ceil(FILTERED.length/PER));}
+async function show(){
+  const slice=FILTERED.slice(PAGE*PER,PAGE*PER+PER);
+  const ks=[...new Set(slice.map(i=>Math.floor(i/CHUNK)))];
+  for(const k of ks) await ensure(k);
+  const tx={};
+  ks.forEach(k=>(CACHE[k]||[]).forEach(x=>tx[x.i]=x));
+  grid.innerHTML=slice.map(i=>{
+    const d=tx[i]||{};
+    return renderCard({...IDX[i], text:d.text||'(正文分片加载失败，请刷新)', imgs:d.imgs||[]});
+  }).join('') || '<p style="color:#6b655c">没有匹配的条目。</p>';
+  pager.innerHTML='<button id="pv" '+(PAGE===0?'disabled':'')+'>‹ 上一页</button>'
+   +'<span style="font-size:12.5px;color:#6b655c">第 '+(PAGE+1)+' / '+pageCount()+' 页 · 共 '+FILTERED.length.toLocaleString()+' 条</span>'
+   +'<button id="nx" '+(PAGE>=pageCount()-1?'disabled':'')+'>下一页 ›</button>';
+  const pv=document.getElementById('pv'),nx=document.getElementById('nx');
+  if(pv)pv.onclick=()=>{PAGE--;show();scrollTo(0,0);};
+  if(nx)nx.onclick=()=>{PAGE++;show();scrollTo(0,0);};
+  stat.textContent='命中 '+FILTERED.length.toLocaleString()+' / '+IDX.length.toLocaleString()+' 条';
+}
+function apply(){
+  const q=Q.trim().toLowerCase(),onlyImg=document.getElementById('imgonly').checked;
+  FILTERED=ORD.filter(i=>{
+    const r=IDX[i];
+    if(!r)return false;
+    if(SRC!=='*'&&r.s!==SRC)return false;
+    if(onlyImg&&r.n<1)return false;
+    if(q&&!((r.t+' '+r.a+' '+r.s).toLowerCase().includes(q)))return false;
+    return true;
+  });
+  PAGE=0;show();
+}
+function slug(s){return s.replace(/[^A-Za-z0-9._-]/g,'_');}
+async function loadSources(list){
+  let added=0;
+  for(const s of list){
+    if(LOADED.has(s)) continue;
+    try{
+      await loadScript(DATA+'i-'+slug(s)+'.js');
+      const d=window.__IDX__||{};
+      Object.keys(d).forEach(k=>{IDX[+k]=d[k];});
+      window.__IDX__=null;LOADED.add(s);added++;
+    }catch(e){}
+  }
+  return added;
+}
+document.querySelectorAll('.chip').forEach(b=>b.onclick=async()=>{
+  document.querySelectorAll('.chip').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');SRC=b.dataset.f;
+  if(SRC!=='*'&&!LOADED.has(SRC)){ stat.textContent='载入 '+SRC+' …'; await loadSources([SRC]); }
+  apply();
+});
+document.getElementById('q').addEventListener('input',e=>{Q=e.target.value;clearTimeout(window._t);window._t=setTimeout(apply,220);});
+document.getElementById('imgonly').addEventListener('change',apply);
+(async()=>{
+  await loadScript(DATA+'sources.js');
+  const S=window.__SRC__||{};
+  const names=Object.keys(S);
+  // Progressive: paint with just the first source's index, then stream the rest
+  // so full-text search widens as they arrive. Keeps first paint ~0.1 MB instead
+  // of pushing every index file up front.
+  const first=names.slice(0,1);
+  await loadSources(first);
+  await loadScript(DATA+'order.js'); ORD=window.__ORDER__||[];
+  apply();
+  stat.textContent='命中 '+FILTERED.length.toLocaleString()+' / 载入中…';
+  for(let k=1;k<names.length;k+=3){
+    const batch=names.slice(k,k+3);
+    await loadSources(batch);
+    apply();     // grow the listing and widen an active search
+  }
+  apply();
+})();
+</script></body></html>
